@@ -1,0 +1,798 @@
+<title>Avaliação de Ansiedade</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Avaliação detalhada de ansiedade: GAD-7, critérios do TAG, pânico, ansiedade social, agorafobia, TEPT e OASIS. Não é diagnóstico.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: coluna de leitura (~46rem); etapas em lista; questionário com uma pergunta por vez; resultado em blocos com barras de escala e grade de critérios. */
+:root {
+  --bg: #f2f4f1;
+  --surface: #ffffff;
+  --ink: #1d2a2b;
+  --muted: #5b6a69;
+  --line: #d6ddd9;
+  --accent: #1f6a66;
+  --accent-ink: #ffffff;
+  --accent-soft: #dcebe8;
+  --ok: #2f7a4b;
+  --ok-soft: #e1f0e5;
+  --warn: #9a6400;
+  --warn-soft: #f8ecd2;
+  --alert: #b23a2c;
+  --alert-soft: #f8e0db;
+  --font-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Atkinson Hyperlegible", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --r: 10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #131a1a; --surface: #1b2423; --ink: #e4ecea; --muted: #9db0ad; --line: #2e3b3a;
+    --accent: #6cc3bb; --accent-ink: #0f1c1b; --accent-soft: #1f3533;
+    --ok: #7fcf9a; --ok-soft: #1c3226; --warn: #e8b660; --warn-soft: #3a2e17;
+    --alert: #f08f80; --alert-soft: #3d221e; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #131a1a; --surface: #1b2423; --ink: #e4ecea; --muted: #9db0ad; --line: #2e3b3a;
+  --accent: #6cc3bb; --accent-ink: #0f1c1b; --accent-soft: #1f3533;
+  --ok: #7fcf9a; --ok-soft: #1c3226; --warn: #e8b660; --warn-soft: #3a2e17;
+  --alert: #f08f80; --alert-soft: #3d221e; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink);
+  font-family: var(--font-body); font-size: 1.0625rem; line-height: 1.6;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0 4rem;
+  margin: 0;
+}
+.wrap { max-width: 46rem; margin: 0 auto; }
+h1, h2, h3 { font-family: var(--font-display); line-height: 1.15; text-wrap: balance; margin: 0; }
+h1 { font-size: clamp(2rem, 6vw, 2.9rem); font-weight: 700; letter-spacing: -0.01em; }
+h2 { font-size: 1.6rem; font-weight: 700; }
+h3 { font-size: 1.2rem; font-weight: 700; }
+p { margin: 0; }
+a { color: var(--accent); }
+.eyebrow { font-family: var(--font-data); font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.muted { color: var(--muted); }
+.small { font-size: 0.92rem; }
+.stack { display: flex; flex-direction: column; gap: 1rem; }
+.stack-lg { display: flex; flex-direction: column; gap: 2rem; }
+button { font: inherit; cursor: pointer; }
+button:focus-visible, a:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+header.top { padding-block: 2.5rem 1.5rem; display: flex; flex-direction: column; gap: 0.9rem; }
+header.top .lede { font-size: 1.15rem; max-width: 38rem; }
+.notice { border: 1px solid var(--line); background: var(--surface); border-radius: var(--r); padding: 1rem 1.1rem; display: flex; flex-direction: column; gap: 0.5rem; }
+.notice.crisis { border-color: var(--alert); background: var(--alert-soft); }
+.notice.crisis strong { color: var(--alert); }
+.phone { font-family: var(--font-data); font-weight: 500; }
+
+.btn { border: 1px solid var(--accent); background: var(--accent); color: var(--accent-ink); padding: 0.7rem 1.2rem; border-radius: 999px; font-weight: 700; }
+.btn.ghost { background: transparent; color: var(--accent); }
+.btn.sm { padding: 0.4rem 0.9rem; font-size: 0.95rem; }
+.btn:disabled { opacity: 0.45; cursor: default; }
+.row { display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center; }
+
+.steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; border: 1px solid var(--line); border-radius: var(--r); background: var(--surface); }
+.steps li { display: grid; grid-template-columns: 2.2rem 1fr auto; gap: 0.75rem; align-items: center; padding: 0.9rem 1rem; border-top: 1px solid var(--line); }
+.steps li:first-child { border-top: 0; }
+.steps .n { font-family: var(--font-data); font-size: 0.9rem; color: var(--muted); }
+.steps .meta { font-family: var(--font-data); font-size: 0.8rem; color: var(--muted); }
+.steps .body { min-width: 0; display: flex; flex-direction: column; gap: 0.2rem; }
+.chip { display: inline-block; font-family: var(--font-data); font-size: 0.75rem; padding: 0.15rem 0.55rem; border-radius: 999px; background: var(--accent-soft); color: var(--accent); white-space: nowrap; }
+.chip.ok { background: var(--ok-soft); color: var(--ok); }
+.chip.warn { background: var(--warn-soft); color: var(--warn); }
+.chip.alert { background: var(--alert-soft); color: var(--alert); }
+.chip.none { background: var(--line); color: var(--muted); }
+
+.quiz { padding-block: 1.5rem; display: flex; flex-direction: column; gap: 1.25rem; }
+.progress { height: 6px; background: var(--line); border-radius: 999px; overflow: hidden; }
+.progress > span { display: block; height: 100%; background: var(--accent); transition: width .25s ease; }
+.instr { background: var(--accent-soft); border-radius: var(--r); padding: 0.8rem 1rem; font-size: 0.98rem; }
+.question { font-family: var(--font-display); font-size: clamp(1.3rem, 4vw, 1.65rem); font-weight: 500; line-height: 1.3; text-wrap: pretty; }
+.prefix { color: var(--muted); font-size: 1rem; font-family: var(--font-body); display: block; margin-bottom: 0.35rem; }
+.hint { color: var(--muted); font-size: 0.95rem; }
+.options { display: flex; flex-direction: column; gap: 0.55rem; }
+.opt { text-align: left; background: var(--surface); color: var(--ink); border: 1.5px solid var(--line); border-radius: var(--r); padding: 0.85rem 1rem; display: flex; gap: 0.85rem; align-items: center; }
+.opt:hover { border-color: var(--accent); }
+.opt[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); font-weight: 700; }
+.opt kbd { font-family: var(--font-data); font-size: 0.8rem; color: var(--muted); border: 1px solid var(--line); border-radius: 5px; padding: 0 0.4rem; min-width: 1.6rem; text-align: center; }
+.qnav { display: flex; justify-content: space-between; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
+.count { font-family: var(--font-data); font-size: 0.85rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+
+.verdict { border-radius: var(--r); padding: 1.3rem; display: flex; flex-direction: column; gap: 0.6rem; border: 1px solid var(--line); background: var(--surface); }
+.verdict.alert { border-left: 6px solid var(--alert); }
+.verdict.warn { border-left: 6px solid var(--warn); }
+.verdict.ok { border-left: 6px solid var(--ok); }
+.verdict .big { font-family: var(--font-display); font-size: clamp(1.5rem, 5vw, 2rem); font-weight: 700; line-height: 1.15; }
+.result { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 1.2rem; display: flex; flex-direction: column; gap: 0.9rem; min-width: 0; }
+.result-head { display: flex; justify-content: space-between; gap: 0.75rem; flex-wrap: wrap; align-items: baseline; }
+.meter { display: flex; flex-direction: column; gap: 0.3rem; }
+.meter .lbl { display: flex; justify-content: space-between; font-family: var(--font-data); font-size: 0.85rem; font-variant-numeric: tabular-nums; gap: 0.5rem; }
+.track { position: relative; height: 12px; background: var(--line); border-radius: 999px; margin-bottom: 1.3rem; }
+.track.thin { height: 8px; margin-bottom: 0.4rem; }
+.track .fill { position: absolute; inset: 0 auto 0 0; border-radius: 999px; background: var(--accent); }
+.track .cut { position: absolute; top: -4px; bottom: -4px; width: 2px; background: var(--ink); }
+.track .cut span { position: absolute; top: 18px; left: 50%; transform: translateX(-50%); font-family: var(--font-data); font-size: 0.7rem; color: var(--muted); white-space: nowrap; }
+.crit { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: 0.6rem; }
+.crit > div { border: 1px solid var(--line); border-radius: var(--r); padding: 0.7rem 0.8rem; display: flex; flex-direction: column; gap: 0.3rem; min-width: 0; }
+.crit .chip { align-self: flex-start; }
+.crit .code { font-family: var(--font-data); font-size: 0.8rem; color: var(--muted); }
+.levels { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 0.8rem; }
+.lvl { border: 1px solid var(--line); border-radius: var(--r); padding: 1rem; display: flex; flex-direction: column; gap: 0.4rem; min-width: 0; }
+.lvl .num { font-family: var(--font-display); font-size: 2.4rem; font-weight: 700; line-height: 1; color: var(--accent); }
+.result ul, .stack ul { margin: 0; padding-left: 1.2rem; display: flex; flex-direction: column; gap: 0.35rem; }
+details { border-top: 1px solid var(--line); padding-top: 0.7rem; }
+summary { cursor: pointer; font-weight: 700; color: var(--accent); }
+details > div { padding-top: 0.6rem; display: flex; flex-direction: column; gap: 0.6rem; }
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; }
+.tablewrap { overflow-x: auto; }
+th, td { text-align: left; padding: 0.4rem 0.5rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-family: var(--font-data); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); font-weight: 500; }
+td.num { font-family: var(--font-data); font-variant-numeric: tabular-nums; white-space: nowrap; }
+section.block { display: flex; flex-direction: column; gap: 1rem; padding-top: 2rem; border-top: 1px solid var(--line); }
+.sources ol { padding-left: 1.3rem; margin: 0; display: flex; flex-direction: column; gap: 0.55rem; font-size: 0.93rem; }
+textarea#summaryText { width: 100%; min-height: 12rem; font-family: var(--font-data); font-size: 0.82rem; background: var(--surface); color: var(--ink); border: 1px solid var(--line); border-radius: var(--r); padding: 0.7rem; }
+@media (max-width: 30rem) { .steps li { grid-template-columns: 1.6rem 1fr; } .steps li .btn { grid-column: 2; justify-self: start; } }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<!-- Gerado por src/build.py; edite os arquivos em src/. -->
+<div class="wrap" id="app"></div>
+
+<script>
+"use strict";
+/* Avaliação de Ansiedade: GAD-7, critérios do TAG, PHQ-PD (pânico), Mini-SPIN, agorafobia,
+   PC-PTSD-5, sinais de TOC e fobia, OASIS (gravidade e prejuízo) e causas físicas. */
+
+const FREQ_GAD = ["Nenhuma vez", "Vários dias", "Mais da metade dos dias", "Quase todos os dias"];
+const SIMNAO = ["Sim", "Não"];
+const SIM3 = ["Não", "Sim, às vezes", "Sim, na maioria dos dias"];
+const SPIN = ["Nada", "Um pouco", "Moderadamente", "Muito", "Extremamente"];
+const AGORA = ["Não sinto medo nem evito", "Sinto medo ou desconforto, mas vou", "Evito, ou só vou acompanhado(a)"];
+const YN3 = ["Sim", "Não", "Não sei"];
+
+const SECTIONS_ANX = [
+  {
+    id: "contexto", short: "Sobre você", name: "Sobre você",
+    about: "Contexto que muda a interpretação do resultado.",
+    instr: "Perguntas rápidas de contexto. Não entram na pontuação.",
+    items: [
+      { key: "age", t: "Qual a sua idade?", options: ["Menos de 18 anos", "18 a 29 anos", "30 a 49 anos", "50 a 64 anos", "65 anos ou mais"] },
+      { key: "gender", t: "Qual o seu gênero?", options: ["Mulher", "Homem", "Não binário / outro", "Prefiro não informar"] },
+      { key: "since", t: "Há quanto tempo a ansiedade incomoda você?", options: ["Menos de 1 mês", "Entre 1 e 6 meses", "Mais de 6 meses", "Desde que me lembro (infância ou adolescência)"] },
+      { key: "treat", t: "Você faz algum tratamento para ansiedade hoje?", options: ["Nenhum", "Psicoterapia", "Medicação", "Psicoterapia e medicação"] }
+    ]
+  },
+  {
+    id: "gad7", short: "GAD-7", name: "Escala de Ansiedade Generalizada (GAD-7)", validated: true,
+    about: "Instrumento padrão para medir a intensidade da ansiedade nas últimas 2 semanas. Validado em português.",
+    instr: "Nas últimas 2 semanas, com que frequência você foi incomodado(a) pelos problemas abaixo?",
+    prefix: "Nas últimas 2 semanas…",
+    options: FREQ_GAD,
+    items: [
+      { t: "Sentir-se nervoso(a), ansioso(a) ou muito tenso(a)" },
+      { t: "Não conseguir impedir ou controlar as preocupações" },
+      { t: "Preocupar-se demais com coisas diferentes" },
+      { t: "Dificuldade para relaxar" },
+      { t: "Ficar tão inquieto(a) que se torna difícil permanecer sentado(a)" },
+      { t: "Ficar facilmente aborrecido(a) ou irritado(a)" },
+      { t: "Sentir medo, como se algo horrível fosse acontecer" },
+      { key: "diff", noPrefix: true, t: "Se você teve algum desses problemas, quanta dificuldade eles causaram para trabalhar, cuidar das coisas de casa ou se relacionar com as pessoas?",
+        options: ["Nenhuma dificuldade", "Alguma dificuldade", "Muita dificuldade", "Extrema dificuldade"] }
+    ]
+  },
+  {
+    id: "tag", short: "Critérios do TAG", name: "Ansiedade generalizada: critérios do DSM-5-TR",
+    about: "Completa o GAD-7 com a duração e os sintomas físicos exigidos para o Transtorno de Ansiedade Generalizada.",
+    instr: "O Transtorno de Ansiedade Generalizada exige preocupação excessiva por pelo menos 6 meses e sintomas físicos ou mentais associados. Pense nos últimos 6 meses.",
+    options: SIM3,
+    items: [
+      { key: "worry6m", t: "Nos últimos 6 meses, você se preocupou de forma excessiva (mais do que a situação pede) com várias coisas: trabalho, saúde, dinheiro, família?",
+        options: ["Não", "Em alguns períodos", "Sim, na maioria dos dias"] },
+      { key: "fatigue", t: "Cansar-se com facilidade, mesmo sem esforço físico" },
+      { key: "blank", t: "Dificuldade para se concentrar ou sensação de “mente em branco”" },
+      { key: "tension", t: "Tensão muscular (pescoço, ombros, costas, mandíbula travada, ranger os dentes)" },
+      { key: "sleep", t: "Problemas de sono: demorar a dormir, acordar no meio da noite ou sono que não descansa" }
+    ].map(it => ({ ...it, tag: it.key === "worry6m" ? "Critério A" : "Critério C · sintomas associados" }))
+  },
+  {
+    id: "panico", short: "Pânico (PHQ-PD)", name: "Crises de pânico (módulo de pânico do PHQ)", validated: true,
+    about: "Identifica crises de pânico e o padrão do Transtorno de Pânico.",
+    instr: "Uma crise de pânico é uma onda súbita de medo ou desconforto intenso que chega ao auge em poucos minutos. Responda pensando nas últimas 4 semanas.",
+    options: SIMNAO,
+    items: [
+      { key: "attack", t: "Nas últimas 4 semanas, você teve uma crise de ansiedade, sentindo medo ou pânico de repente?" },
+      { key: "before", t: "Isso já tinha acontecido antes?" },
+      { key: "blue", t: "Algumas dessas crises vêm de repente, “do nada”, em situações em que você não esperava ficar nervoso(a) ou desconfortável?" },
+      { key: "worry", t: "Essas crises incomodam muito você, ou você fica preocupado(a) com a possibilidade de ter outra crise?" },
+      { sym: true, t: "Na sua última crise forte, você sentiu falta de ar?" },
+      { sym: true, t: "Seu coração disparou, bateu forte ou falhou?" },
+      { sym: true, t: "Você sentiu dor ou aperto no peito?" },
+      { sym: true, t: "Você suou?" },
+      { sym: true, t: "Você sentiu como se estivesse sufocando?" },
+      { sym: true, t: "Você teve ondas de calor ou calafrios?" },
+      { sym: true, t: "Você teve náusea, mal-estar no estômago ou sensação de que ia ter diarreia?" },
+      { sym: true, t: "Você se sentiu tonto(a), sem equilíbrio ou como se fosse desmaiar?" },
+      { sym: true, t: "Você sentiu formigamento ou dormência em partes do corpo?" },
+      { sym: true, t: "Você tremeu ou se sacudiu?" },
+      { sym: true, t: "Você teve medo de estar morrendo?" }
+    ].map((it, i) => i === 0 ? it : { ...it, showIf: a => a[0] === 0 })
+  },
+  {
+    id: "social", short: "Mini-SPIN", name: "Ansiedade social (Mini-SPIN)", validated: true,
+    about: "3 perguntas com 89% de sensibilidade e 90% de especificidade para ansiedade social.",
+    instr: "Marque o quanto cada frase descreve você na última semana.",
+    options: SPIN,
+    items: [
+      { t: "O medo de passar vergonha faz com que eu evite fazer coisas ou falar com pessoas." },
+      { t: "Evito atividades em que sou o centro das atenções." },
+      { t: "Passar vergonha ou parecer bobo(a) está entre os meus piores medos." }
+    ]
+  },
+  {
+    id: "agora", short: "Agorafobia e fobias", name: "Agorafobia, fobias e sinais de TOC",
+    about: "As 5 situações de agorafobia do DSM-5-TR, fobia específica e sinais de TOC.",
+    instr: "Na agorafobia, a pessoa tem medo de situações em que seria difícil sair ou conseguir ajuda caso passe mal ou tenha uma crise. Responda pensando nos últimos 6 meses.",
+    prefix: "Por medo de passar mal e não conseguir sair ou ter ajuda, como você lida com…",
+    options: AGORA,
+    items: [
+      { tag: "Agorafobia", t: "…transporte público (ônibus, metrô, avião, carro como passageiro)?" },
+      { tag: "Agorafobia", t: "…espaços abertos (estacionamentos, praças, pontes, feiras)?" },
+      { tag: "Agorafobia", t: "…lugares fechados (lojas, cinemas, elevadores, túneis)?" },
+      { tag: "Agorafobia", t: "…filas ou multidões?" },
+      { tag: "Agorafobia", t: "…sair de casa sozinho(a)?" },
+      { key: "phobia", tag: "Fobia específica", noPrefix: true, t: "Você tem um medo intenso e desproporcional de algo específico (altura, animais, sangue, agulhas, avião, vomitar) e evita isso sempre que pode?",
+        options: ["Não", "Sim, mas não atrapalha minha vida", "Sim, e atrapalha minha vida"] },
+      { key: "obs", tag: "Sinais de TOC", noPrefix: true, t: "Você tem pensamentos, imagens ou impulsos que invadem a mente contra a sua vontade, causam muita angústia, e que você tenta afastar (por exemplo, medo de contaminação, de causar mal a alguém, de algo não estar “certo”)?",
+        options: ["Não", "Às vezes", "Sim, com frequência"] },
+      { key: "comp", tag: "Sinais de TOC", noPrefix: true, t: "Você sente que precisa repetir ações ou rituais (lavar, verificar, contar, organizar, repetir frases mentalmente) para aliviar a angústia, ocupando mais de 1 hora por dia?",
+        options: ["Não", "Sim, mas menos de 1 hora por dia", "Sim, mais de 1 hora por dia"] }
+    ]
+  },
+  {
+    id: "ptsd", short: "PC-PTSD-5", name: "Estresse pós-traumático (PC-PTSD-5)", validated: true,
+    about: "Rastreio do Departamento de Assuntos de Veteranos dos EUA, com uma pergunta de exposição e 5 sintomas.",
+    instr: "Às vezes acontecem coisas incomuns ou especialmente assustadoras, horríveis ou traumáticas, como um acidente grave ou incêndio, agressão física ou sexual, ver alguém ser morto ou gravemente ferido, ou a morte de alguém próximo por homicídio ou suicídio.",
+    options: SIMNAO,
+    items: [
+      { key: "exposed", t: "Alguma vez você passou por algum evento desse tipo?" },
+      { t: "No último mês, você teve pesadelos com o evento ou pensou nele sem querer?" },
+      { t: "No último mês, você se esforçou para não pensar no evento ou fez de tudo para evitar situações que o lembrassem dele?" },
+      { t: "No último mês, você ficou constantemente em alerta, vigilante ou se assustou com facilidade?" },
+      { t: "No último mês, você se sentiu entorpecido(a) ou distante das pessoas, das atividades ou do ambiente à sua volta?" },
+      { t: "No último mês, você se sentiu culpado(a) ou não conseguiu parar de culpar a si mesmo(a) ou a outras pessoas pelo evento ou pelos problemas que ele causou?" }
+    ].map((it, i) => i === 0 ? it : { ...it, showIf: a => a[0] === 0 })
+  },
+  {
+    id: "oasis", short: "OASIS", name: "Gravidade e prejuízo da ansiedade (OASIS)", validated: true,
+    about: "5 perguntas que medem o quanto a ansiedade, de qualquer tipo, afeta a sua vida. Ponto de corte 8.",
+    instr: "Estas perguntas valem para qualquer tipo de ansiedade (preocupação, pânico, medo social, fobias, traumas). Pense na última semana.",
+    items: [
+      { t: "Na última semana, com que frequência você se sentiu ansioso(a)?",
+        options: ["Nenhuma vez", "De vez em quando", "Metade do tempo", "A maior parte do tempo", "Todo o tempo"] },
+      { t: "Quando se sentiu ansioso(a), qual foi a intensidade da ansiedade?",
+        options: ["Pouca ou nenhuma", "Leve", "Moderada", "Forte", "Extrema"] },
+      { t: "Com que frequência você evitou situações, lugares, objetos ou atividades por causa da ansiedade ou do medo?",
+        options: ["Nenhuma vez", "Às vezes", "Com frequência", "Na maior parte do tempo", "Todo o tempo"] },
+      { t: "Quanto a ansiedade atrapalhou o seu trabalho, estudo ou as tarefas de casa?",
+        options: ["Nada", "Um pouco", "Moderadamente", "Muito", "Extremamente"] },
+      { t: "Quanto a ansiedade atrapalhou sua vida social e seus relacionamentos?",
+        options: ["Nada", "Um pouco", "Moderadamente", "Muito", "Extremamente"] }
+    ]
+  },
+  {
+    id: "fisico", short: "Causas físicas", name: "Causas físicas e substâncias",
+    about: "Situações médicas e substâncias que causam ou pioram sintomas de ansiedade.",
+    instr: "Muitos sintomas de ansiedade podem ter causa física. O DSM-5-TR exige que essas causas sejam descartadas antes do diagnóstico.",
+    options: YN3,
+    items: [
+      { key: "caffeine", t: "Você consome muita cafeína (mais de 4 xícaras de café por dia, energéticos, pré-treino ou chimarrão em grande quantidade)?" },
+      { key: "stim", t: "Você usa estimulantes, descongestionantes, remédios para emagrecer, corticoides, broncodilatadores (“bombinha”) ou hormônio de tireoide?" },
+      { key: "alcohol", t: "Você bebe com frequência, usa outras drogas, ou parou ou diminuiu recentemente álcool, calmantes ou remédios para dormir?" },
+      { key: "thyroid", t: "Você tem (ou nunca investigou) sinais como emagrecimento sem motivo, intolerância ao calor, tremor nas mãos ou coração acelerado mesmo em repouso?" },
+      { key: "medical", t: "Você tem algum problema de saúde diagnosticado que causa falta de ar, palpitação ou tontura (arritmia, asma, anemia, hipoglicemia, labirintite)?" }
+    ]
+  }
+];
+
+function contextAnx(ans) {
+  return { age: pick(ans, "contexto", "age"), gender: pick(ans, "contexto", "gender"), since: pick(ans, "contexto", "since"), treat: pick(ans, "contexto", "treat") };
+}
+
+function scoreGAD(a) {
+  const core = a.slice(0, 7);
+  const total = sum(core);
+  const band = total >= 15 ? 3 : total >= 10 ? 2 : total >= 5 ? 1 : 0;
+  return { total, band, bandName: ["mínima", "leve", "moderada", "grave"][band], diff: a[7], core,
+    level: total >= 10 ? "alert" : total >= 5 ? "warn" : "ok" };
+}
+
+function scoreTAG(a, gad) {
+  const sec = sectionById("tag");
+  const v = k => a[sec.items.findIndex(it => it.key === k)];
+  // Os 6 sintomas do critério C: inquietação e irritabilidade vêm do GAD-7 (itens 5 e 6); os outros 4 desta etapa
+  const c = [
+    gad ? gad.core[4] >= 2 : false,
+    v("fatigue") === 2, v("blank") === 2,
+    gad ? gad.core[5] >= 2 : false,
+    v("tension") === 2, v("sleep") === 2
+  ];
+  const cCount = c.filter(Boolean).length;
+  const worry = v("worry6m") === 2;
+  const uncontrolled = gad ? gad.core[1] >= 2 : false;
+  const impaired = gad ? gad.diff >= 1 : false;
+  const met = worry && uncontrolled && cCount >= 3 && impaired;
+  const partial = !met && (worry || (gad && gad.total >= 10)) && cCount >= 2;
+  return { cCount, worry, uncontrolled, impaired, met, partial };
+}
+
+function scorePanic(a) {
+  const sec = sectionById("panico");
+  const yes = i => a[i] === 0;
+  const attack = yes(0);
+  const symptoms = sec.items.map((it, i) => it.sym && yes(i)).filter(Boolean).length;
+  const gate = [0, 1, 2, 3].every(yes);
+  const disorder = gate && symptoms >= 4;            // algoritmo original do PHQ
+  const score = [0, 1, 2, 3].filter(yes).length + symptoms; // pontuação somada, corte 5 (estudo espanhol de 2016)
+  const attacksOnly = attack && !disorder && symptoms >= 4;
+  return { attack, symptoms, gate, disorder, score, attacksOnly,
+    level: disorder ? "alert" : attack ? "warn" : "ok" };
+}
+
+function scoreSPIN(a) {
+  const total = sum(a);
+  return { total, positive: total >= 6, level: total >= 6 ? "alert" : total >= 4 ? "warn" : "ok" };
+}
+
+function scoreAgora(a) {
+  const sec = sectionById("agora");
+  const situ = a.slice(0, 5);
+  const fear = situ.filter(v => v >= 1).length;
+  const avoid = situ.filter(v => v === 2).length;
+  const v = k => a[sec.items.findIndex(it => it.key === k)];
+  const phobia = v("phobia"), obs = v("obs"), comp = v("comp");
+  return { fear, avoid, agora: fear >= 2 && avoid >= 1, phobia, ocd: obs === 2 || comp === 2, ocdSome: obs >= 1 || comp >= 1 };
+}
+
+function scorePTSD(a) {
+  const exposed = a[0] === 0;
+  const total = exposed ? a.slice(1).filter(v => v === 0).length : 0;
+  return { exposed, total, level: total >= 3 ? "alert" : total >= 2 ? "warn" : "ok" };
+}
+
+function scoreOASIS(a) {
+  const total = sum(a);
+  return { total, positive: total >= 8, avoid: a[2], level: total >= 8 ? "alert" : total >= 5 ? "warn" : "ok" };
+}
+
+function computeAnx(ans, done) {
+  const R = { ctx: contextAnx(ans) };
+  if (done("gad7")) R.gad = scoreGAD(ans.gad7);
+  if (done("tag")) R.tag = scoreTAG(ans.tag, R.gad);
+  if (done("panico")) R.panic = scorePanic(ans.panico);
+  if (done("social")) R.spin = scoreSPIN(ans.social);
+  if (done("agora")) R.agora = scoreAgora(ans.agora);
+  if (done("ptsd")) R.ptsd = scorePTSD(ans.ptsd);
+  if (done("oasis")) R.oasis = scoreOASIS(ans.oasis);
+  if (done("fisico")) {
+    const sec = sectionById("fisico");
+    R.phys = Object.fromEntries(sec.items.map((it, i) => [it.key, ans.fisico[i]]));
+  }
+  R.profiles = profilesAnx(R);
+  R.severity = severityAnx(R);
+  return R;
+}
+
+// Perfis prováveis, cada um com grau: 2 = provável, 1 = possível, 0 = pouco provável
+function profilesAnx(R) {
+  const P = [];
+  if (R.gad) {
+    const g = R.tag ? (R.tag.met ? 2 : (R.tag.partial || R.gad.total >= 10) ? 1 : 0) : (R.gad.total >= 10 ? 1 : 0);
+    P.push({ id: "tag", name: "Transtorno de Ansiedade Generalizada (TAG)", g,
+      why: R.tag ? `GAD-7 em ${R.gad.total}; preocupação excessiva nos últimos 6 meses: ${R.tag.worry ? "sim" : "não"}; ${R.tag.cCount} de 6 sintomas associados na maioria dos dias (o DSM exige 3).` : `GAD-7 em ${R.gad.total}.` });
+  }
+  if (R.panic) P.push({ id: "panico", name: "Transtorno de Pânico", g: R.panic.disorder ? 2 : (R.panic.attack && R.panic.score >= 5) ? 1 : 0,
+    why: R.panic.attack ? `Crises nas últimas 4 semanas, com ${R.panic.symptoms} de 11 sintomas físicos (o DSM exige 4). ${R.panic.gate ? "Crises inesperadas, repetidas e com medo de novas crises." : "Nem todas as condições do padrão de pânico foram marcadas (crises inesperadas, repetidas e preocupação com novas crises)."}` : "Sem crises de pânico nas últimas 4 semanas." });
+  if (R.spin) P.push({ id: "social", name: "Transtorno de Ansiedade Social", g: R.spin.total >= 6 ? 2 : R.spin.total >= 4 ? 1 : 0,
+    why: `Mini-SPIN em ${R.spin.total} de 12 (corte 6).` });
+  if (R.agora) P.push({ id: "agora", name: "Agorafobia", g: R.agora.agora ? (R.agora.fear >= 3 ? 2 : 1) : 0,
+    why: `Medo em ${R.agora.fear} das 5 situações do DSM-5-TR (exige 2 ou mais), com evitação em ${R.agora.avoid}.` });
+  if (R.ptsd) P.push({ id: "ptsd", name: "Transtorno de Estresse Pós-Traumático (TEPT)", g: R.ptsd.total >= 4 ? 2 : R.ptsd.total >= 3 ? 1 : 0,
+    why: R.ptsd.exposed ? `PC-PTSD-5 em ${R.ptsd.total} de 5 (corte 3 para maior sensibilidade, 4 para maior precisão).` : "Sem exposição a evento traumático relatada." });
+  if (R.agora) {
+    P.push({ id: "toc", name: "Transtorno Obsessivo-Compulsivo (TOC)", g: R.agora.ocd ? 1 : 0,
+      why: R.agora.ocd ? "Pensamentos intrusivos frequentes ou rituais por mais de 1 hora por dia. Estas perguntas não são um instrumento validado; vale uma avaliação específica." : "Sem sinais importantes nas duas perguntas de triagem." });
+    P.push({ id: "fobia", name: "Fobia específica", g: R.agora.phobia === 2 ? 2 : R.agora.phobia === 1 ? 1 : 0,
+      why: R.agora.phobia === 2 ? "Medo intenso e evitação que atrapalham a vida." : R.agora.phobia === 1 ? "Medo intenso, mas sem prejuízo relatado." : "Nenhum medo específico intenso relatado." });
+  }
+  return P;
+}
+
+// Nível geral: gravidade dos sintomas (GAD-7) combinada com o prejuízo (OASIS)
+function severityAnx(R) {
+  if (!R.gad && !R.oasis) return null;
+  const g = R.gad ? R.gad.band : 0;
+  const o = R.oasis ? (R.oasis.total >= 14 ? 3 : R.oasis.total >= 8 ? 2 : R.oasis.total >= 5 ? 1 : 0) : g;
+  let lvl = Math.round((g + o) / 2);
+  if (R.panic && R.panic.disorder) lvl = Math.max(lvl, 2);
+  return { lvl, name: ["Mínima", "Leve", "Moderada", "Grave"][lvl], g, o };
+}
+
+const LEVEL_TXT = [
+  "Sintomas mínimos, sem prejuízo importante. Não indica um transtorno de ansiedade.",
+  "Sintomas leves. Costumam responder bem a mudanças de hábito, psicoeducação e técnicas de manejo da ansiedade. Se persistirem, procure avaliação.",
+  "Sintomas moderados, com prejuízo real na vida. É o nível em que o tratamento é recomendado, geralmente psicoterapia (a terapia cognitivo-comportamental é a mais estudada) e, conforme o caso, medicação.",
+  "Sintomas graves, com prejuízo importante. Procure avaliação de psiquiatra e psicólogo o quanto antes."
+];
+const G_LABEL = [["Pouco provável", "ok"], ["Possível", "warn"], ["Provável", "alert"]];
+
+function resultsAnx(R) {
+  const out = [];
+  const ctx = R.ctx;
+  const S = R.severity;
+  const likely = R.profiles.filter(p => p.g === 2), possible = R.profiles.filter(p => p.g === 1);
+  if (S) {
+    out.push(`<div class="verdict ${S.lvl >= 2 ? "alert" : S.lvl === 1 ? "warn" : "ok"}">
+      <span class="eyebrow">Resultado geral · nível de gravidade</span>
+      <span class="big">Ansiedade ${S.name.toLowerCase()}</span>
+      <p>${LEVEL_TXT[S.lvl]}</p>
+      ${likely.length ? `<p class="small"><strong>Padrões prováveis:</strong> ${likely.map(p => p.name).join("; ")}.</p>` : ""}
+      ${possible.length ? `<p class="small"><strong>Padrões possíveis:</strong> ${possible.map(p => p.name).join("; ")}.</p>` : ""}
+      ${!likely.length && !possible.length ? `<p class="small">Nenhum padrão específico de transtorno de ansiedade apareceu nas respostas.</p>` : ""}
+    </div>`);
+  }
+  const warns = [];
+  if (ctx.since === 0) warns.push("Seus sintomas começaram há menos de 1 mês. Ansiedade recente costuma estar ligada a um acontecimento e pode diminuir sozinha. Se começou depois de um trauma, o quadro pode ser de estresse agudo; refaça a avaliação em algumas semanas.");
+  if (ctx.age === 0) warns.push("Os instrumentos desta página foram validados em adultos. Para menores de 18 anos, procure um profissional que atenda crianças e adolescentes.");
+  if (ctx.treat > 0) warns.push("Você já está em tratamento. As pontuações mostram como você está agora e podem ajudar a acompanhar a evolução com seu profissional.");
+  if (R.phys && Object.values(R.phys).some(v => v === 0)) warns.push("Você marcou pelo menos uma possível causa física ou substância (veja abaixo). O DSM-5-TR só diagnostica um transtorno de ansiedade depois de descartar essas causas.");
+  if (warns.length) out.push(`<div class="notice">${warns.map(w => `<p class="small">${w}</p>`).join("")}</div>`);
+
+  if (R.gad || R.oasis) {
+    const cards = [];
+    if (R.gad) cards.push(resultCard("GAD-7: intensidade dos sintomas", `Ansiedade ${R.gad.bandName}`, R.gad.level, `
+      ${meter(R.gad.total, 21, [{ v: 5, l: "5" }, { v: 10, l: "10" }, { v: 15, l: "15" }], "Pontuação total")}
+      <p>${R.gad.total >= 10 ? "10 pontos ou mais é o ponto de corte para provável transtorno de ansiedade. Nesse corte, o estudo original encontrou 89% de sensibilidade e 82% de especificidade para TAG." : "Abaixo do ponto de corte de 10 para provável transtorno de ansiedade."}</p>
+      <p class="small muted">Faixas: 0–4 mínima · 5–9 leve · 10–14 moderada · 15–21 grave. Dificuldade relatada no dia a dia: ${["nenhuma", "alguma", "muita", "extrema"][R.gad.diff]}.</p>`));
+    if (R.oasis) cards.push(resultCard("OASIS: prejuízo na vida", R.oasis.positive ? "Acima do corte 8" : "Abaixo do corte", R.oasis.level, `
+      ${meter(R.oasis.total, 20, [{ v: 8, l: "8" }], "Pontuação total")}
+      <p>${R.oasis.positive ? "A ansiedade está trazendo prejuízo clinicamente importante. No estudo de validação, o corte 8 identificou 89% das pessoas com transtorno de ansiedade." : "A ansiedade não está trazendo prejuízo importante pelo critério da escala."}</p>
+      ${R.oasis.avoid >= 2 ? `<p class="small">Você relatou evitar situações com frequência. A evitação alivia no curto prazo, mas mantém a ansiedade no longo prazo; é um dos alvos principais da terapia.</p>` : ""}`));
+    out.push(`<section class="stack"><h2>Gravidade e prejuízo</h2>${cards.join("")}</section>`);
+  }
+
+  if (R.profiles.length) {
+    out.push(`<section class="stack"><h2>Tipos de ansiedade</h2>
+      <p>Cada transtorno de ansiedade tem critérios próprios no DSM-5-TR. Abaixo, o quanto suas respostas se aproximam de cada um.</p>
+      <div class="crit">
+        ${R.profiles.map(p => `<div><strong>${p.name}</strong><span class="chip ${G_LABEL[p.g][1]}">${G_LABEL[p.g][0]}</span><span class="small muted">${p.why}</span></div>`).join("")}
+      </div>
+    </section>`);
+  }
+
+  const details = [];
+  if (R.panic && R.panic.attack) details.push(resultCard("Crises de pânico", R.panic.disorder ? "Padrão de pânico" : "Crises presentes", R.panic.level, `
+    ${meter(R.panic.symptoms, 11, [{ v: 4, l: "4 sintomas" }], "Sintomas na última crise")}
+    <p>${R.panic.disorder ? "Suas respostas preenchem o algoritmo original do PHQ para Transtorno de Pânico: crises repetidas, inesperadas, com preocupação sobre novas crises e 4 ou mais sintomas físicos." : "Crises de pânico isoladas são comuns e não significam, sozinhas, Transtorno de Pânico. Elas também acontecem dentro de outros quadros (ansiedade social, fobias, TEPT, depressão)."}</p>
+    <p class="small muted">Sintomas como dor no peito e falta de ar precisam ser avaliados por um médico pelo menos uma vez, para descartar causas cardíacas e respiratórias.</p>`));
+  if (R.spin) details.push(resultCard("Mini-SPIN: ansiedade social", R.spin.positive ? "Acima do corte 6" : "Abaixo do corte", R.spin.level, `
+    ${meter(R.spin.total, 12, [{ v: 6, l: "6" }], "Pontuação total")}
+    <p>${R.spin.positive ? "Pontuação compatível com ansiedade social. O Mini-SPIN tem 89% de sensibilidade e 90% de especificidade nesse corte, mas cerca de metade dos positivos não confirma o diagnóstico na entrevista, então a avaliação é necessária." : "Abaixo do ponto de corte para ansiedade social."}</p>`));
+  if (R.ptsd && R.ptsd.exposed) details.push(resultCard("PC-PTSD-5: estresse pós-traumático", R.ptsd.total >= 3 ? "Rastreio positivo" : "Rastreio negativo", R.ptsd.level, `
+    ${meter(R.ptsd.total, 5, [{ v: 3, l: "3" }, { v: 4, l: "4" }], "Sintomas no último mês")}
+    <p>${R.ptsd.total >= 3 ? "Seus sintomas no último mês são compatíveis com provável TEPT. A confirmação é feita com entrevista clínica (como a CAPS-5) ou com a escala PCL-5." : "Você passou por um evento traumático, mas os sintomas atuais ficaram abaixo do ponto de corte."}${ctx.gender === 0 && R.ptsd.total === 3 ? " Em mulheres, estudos indicam que o corte 3 funciona melhor que o 4." : ""}</p>
+    <p class="small muted">Terapias focadas no trauma (como TCC focada no trauma, EMDR e exposição prolongada) são os tratamentos com mais evidência para TEPT.</p>`));
+  if (details.length) out.push(`<section class="stack"><h2>Detalhes por instrumento</h2>${details.join("")}</section>`);
+
+  if (R.phys) {
+    const names = { caffeine: "Cafeína em excesso", stim: "Estimulantes, corticoides, broncodilatadores ou hormônio de tireoide", alcohol: "Álcool, drogas ou retirada recente de calmantes", thyroid: "Possíveis sinais de hipertireoidismo", medical: "Problema de saúde que causa sintomas parecidos" };
+    const hits = Object.entries(R.phys).filter(([, v]) => v === 0);
+    const unsure = Object.entries(R.phys).filter(([, v]) => v === 2);
+    out.push(`<section class="stack"><h2>Causas físicas a descartar</h2>
+      ${hits.length ? `<ul>${hits.map(([k]) => `<li><strong>${names[k]}</strong></li>`).join("")}</ul><p>Leve isso ao médico. Exames simples, como TSH (tireoide), hemograma, glicemia e eletrocardiograma, ajudam a descartar causas físicas.</p>` : "<p>Você não marcou nenhuma das causas físicas ou substâncias mais comuns.</p>"}
+      ${unsure.length ? `<p class="small muted">Você respondeu “não sei” em: ${unsure.map(([k]) => names[k].toLowerCase()).join("; ")}.</p>` : ""}
+    </section>`);
+  }
+
+  out.push(`<section class="block">
+    <h2>Próximos passos</h2>
+    <ul>
+      <li><strong>Pelo SUS:</strong> comece pela Unidade Básica de Saúde. Casos leves e moderados costumam ser tratados ali; casos graves são encaminhados para psiquiatria ou CAPS.</li>
+      <li><strong>Psicoterapia:</strong> a terapia cognitivo-comportamental (TCC) é o tratamento psicológico com mais evidência para todos os transtornos de ansiedade. Clínicas-escola de psicologia das universidades costumam atender a preço baixo ou de graça.</li>
+      <li><strong>Medicação:</strong> quando indicada, é prescrita por médico (psiquiatra ou clínico). Calmantes do tipo benzodiazepínico aliviam rápido, mas causam dependência; não use sem orientação.</li>
+      <li><strong>Enquanto isso:</strong> sono regular, menos cafeína e álcool, atividade física e respiração lenta (expirar mais devagar do que inspira) têm efeito comprovado sobre a ansiedade.</li>
+    </ul>
+  </section>`);
+  return out.join("");
+}
+
+function summaryAnx(R) {
+  const L = ["Avaliação de Ansiedade: resumo (não é diagnóstico)", ""];
+  if (R.severity) L.push(`Nível geral: ansiedade ${R.severity.name.toLowerCase()}`);
+  if (R.gad) L.push(`GAD-7: ${R.gad.total}/21 (${R.gad.bandName}); dificuldade no dia a dia: ${["nenhuma", "alguma", "muita", "extrema"][R.gad.diff]}`);
+  if (R.oasis) L.push(`OASIS: ${R.oasis.total}/20 (corte 8)`);
+  if (R.tag) L.push(`Critérios do TAG: preocupação excessiva 6 meses ${R.tag.worry ? "sim" : "não"}; ${R.tag.cCount}/6 sintomas associados`);
+  if (R.panic) L.push(`Pânico (PHQ-PD): ${R.panic.attack ? `crises sim; ${R.panic.symptoms}/11 sintomas; padrão de transtorno ${R.panic.disorder ? "sim" : "não"}` : "sem crises nas últimas 4 semanas"}`);
+  if (R.spin) L.push(`Mini-SPIN: ${R.spin.total}/12 (corte 6)`);
+  if (R.agora) L.push(`Agorafobia: medo em ${R.agora.fear}/5 situações, evitação em ${R.agora.avoid}; fobia específica: ${["não", "sim, sem prejuízo", "sim, com prejuízo"][R.agora.phobia]}; sinais de TOC: ${R.agora.ocd ? "sim" : R.agora.ocdSome ? "leves" : "não"}`);
+  if (R.ptsd) L.push(`PC-PTSD-5: ${R.ptsd.exposed ? `${R.ptsd.total}/5 (corte 3)` : "sem exposição a trauma"}`);
+  L.push("", "Padrões: " + R.profiles.map(p => `${p.name} ${G_LABEL[p.g][0].toLowerCase()}`).join("; "));
+  if (R.phys) {
+    const names = { caffeine: "cafeína", stim: "estimulantes/medicamentos", alcohol: "álcool/drogas/retirada", thyroid: "sinais de tireoide", medical: "condição médica" };
+    const hits = Object.entries(R.phys).filter(([, v]) => v === 0).map(([k]) => names[k]);
+    L.push(`Causas físicas marcadas: ${hits.length ? hits.join(", ") : "nenhuma"}`);
+  }
+  return L.join("\n");
+}
+
+const SOURCES_ANX = `<section class="block sources">
+  <h2>Fontes científicas</h2>
+  <p class="muted small">Traduções adaptadas para o português do Brasil a partir das versões originais. As perguntas de critérios do TAG, agorafobia, TOC, fobia e causas físicas seguem o DSM-5-TR, mas não são instrumentos validados.</p>
+  <ol>
+    <li>Spitzer RL, Kroenke K, Williams JBW, Löwe B. A brief measure for assessing generalized anxiety disorder: the GAD-7. <em>Arch Intern Med</em>. 2006;166(10):1092–1097.</li>
+    <li>Sousa TV, Viveiros V, Chai MV et al. <a href="https://hqlo.biomedcentral.com/track/pdf/10.1186/s12955-015-0244-2" target="_blank" rel="noopener">Reliability and validity of the Portuguese version of the GAD-7</a>. <em>Health Qual Life Outcomes</em>. 2015;13:50.</li>
+    <li>Spitzer RL, Kroenke K, Williams JBW. Validation and utility of a self-report version of PRIME-MD: the PHQ primary care study. <em>JAMA</em>. 1999;282(18):1737–1744. (módulo de pânico)</li>
+    <li>Muñoz-Navarro R, Cano-Vindel A, Wood CM et al. <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4985125/" target="_blank" rel="noopener">The PHQ-PD as a screening tool for panic disorder in the primary care setting in Spain</a>. <em>PLoS ONE</em>. 2016. (corte 5)</li>
+    <li>Connor KM, Kobak KA, Churchill LE, Katzelnick D, Davidson JRT. Mini-SPIN: a brief screening assessment for generalized social anxiety disorder. <em>Depress Anxiety</em>. 2001;14(2):137–140.</li>
+    <li>Weeks JW, Spokas ME, Heimberg RG. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC2781035" target="_blank" rel="noopener">Psychometric evaluation of the Mini-Social Phobia Inventory (Mini-SPIN)</a>. 2007.</li>
+    <li>Prins A, Bovin MJ, Smolenski DJ et al. The Primary Care PTSD Screen for DSM-5 (PC-PTSD-5): development and evaluation within a veteran primary care sample. <em>J Gen Intern Med</em>. 2016;31(10):1206–1211. <a href="https://istss.org/clinical-resources/adult-trauma-assessments/primary-care-ptsd-screen-for-dsm-5/" target="_blank" rel="noopener">Resumo da ISTSS</a>.</li>
+    <li>Norman SB, Cissell SH, Means-Christensen AJ, Stein MB. Development and validation of an Overall Anxiety Severity and Impairment Scale (OASIS). <em>Depress Anxiety</em>. 2006;23(4):245–249.</li>
+    <li>Campbell-Sills L, Norman SB, Craske MG et al. Validation of a brief measure of anxiety-related severity and impairment: the OASIS. <em>J Affect Disord</em>. 2009;112(1–3):92–101. (corte 8)</li>
+    <li>American Psychiatric Association. <em>DSM-5-TR: Manual Diagnóstico e Estatístico de Transtornos Mentais</em>, 5ª ed., texto revisado. 2022/2023.</li>
+    <li><a href="https://cvv.org.br" target="_blank" rel="noopener">Centro de Valorização da Vida (CVV)</a>, telefone 188.</li>
+  </ol>
+</section>`;
+
+const PAGE = {
+  storeKey: "avaliacao-ansiedade-v1",
+  title: "Avaliação de Ansiedade",
+  eyebrow: "Adultos · 9 etapas · cerca de 20 minutos",
+  lede: "Mede a intensidade da ansiedade, o prejuízo que ela causa e qual tipo de transtorno de ansiedade mais se aproxima das suas respostas: generalizada, pânico, social, agorafobia, estresse pós-traumático, fobia ou TOC.",
+  notice: `<p><strong>Isto não é um diagnóstico.</strong> Os questionários usados são validados e usados por profissionais de saúde para rastreio. O diagnóstico depende de uma entrevista clínica com psiquiatra ou psicólogo, que também descarta causas físicas.</p>`,
+  sections: SECTIONS_ANX,
+  compute: computeAnx,
+  results: resultsAnx,
+  summary: summaryAnx,
+  sources: SOURCES_ANX,
+  needsCrisis: () => false
+};
+window.__calc = { scoreGAD, scoreTAG, scorePanic, scoreSPIN, scoreAgora, scorePTSD, scoreOASIS, profilesAnx, severityAnx };
+</script>
+<script>
+"use strict";
+/* Motor compartilhado das avaliações: etapas, perguntas com condição (showIf), retomada, resultado.
+   Cada página define PAGE antes deste script:
+   { storeKey, title, eyebrow, lede, notice, sections, compute(ans) -> R, results(R) -> html,
+     summary(R) -> texto, sources -> html, needsCrisis(ans) -> bool } */
+
+const num = v => typeof v === "number";
+const mean = arr => arr.length ? arr.reduce((x, y) => x + y, 0) / arr.length : 0;
+const sum = arr => arr.reduce((x, y) => x + y, 0);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const sectionById = id => PAGE.sections.find(s => s.id === id);
+
+const CRISIS = `
+  <div class="notice crisis" role="note">
+    <p><strong>Se você está pensando em se machucar ou em suicídio, procure ajuda agora.</strong></p>
+    <p>CVV (Centro de Valorização da Vida): <span class="phone">188</span>, ligação gratuita, 24 horas, ou chat em cvv.org.br. Emergência: SAMU <span class="phone">192</span> ou vá a uma UPA/pronto-socorro. Se puder, fique perto de alguém de confiança e afaste objetos que possam ser usados para se ferir.</p>
+  </div>`;
+
+// Resposta de uma etapa por chave do item (ou índice)
+function pick(ans, secId, key) {
+  const sec = sectionById(secId), a = ans[secId];
+  if (!sec || !Array.isArray(a)) return undefined;
+  const i = typeof key === "number" ? key : sec.items.findIndex(it => it.key === key);
+  return a[i];
+}
+const visible = (it, a) => !it.showIf || it.showIf(a);
+
+function isComplete(id, a) {
+  const sec = sectionById(id);
+  return Array.isArray(a) && sec.items.every((it, i) => num(a[i]) || !visible(it, a));
+}
+
+let state = { answers: {}, queue: [], view: "home", sec: null, idx: 0 };
+try { const raw = localStorage.getItem(PAGE.storeKey); if (raw) state.answers = JSON.parse(raw).answers || {}; } catch (e) {}
+function save() { try { localStorage.setItem(PAGE.storeKey, JSON.stringify({ answers: state.answers })); } catch (e) {} }
+
+const app = document.getElementById("app");
+const done = id => isComplete(id, state.answers[id]);
+const totalItems = () => PAGE.sections.reduce((s, x) => s + x.items.length, 0);
+
+function renderHome() {
+  const S = PAGE.sections;
+  const doneCount = S.filter(s => done(s.id)).length;
+  app.innerHTML = `
+    <header class="top">
+      <span class="eyebrow">${PAGE.eyebrow}</span>
+      <h1>${PAGE.title}</h1>
+      <p class="lede">${PAGE.lede}</p>
+    </header>
+    <div class="stack-lg">
+      <div class="notice">${PAGE.notice}<p class="muted">As respostas ficam só neste navegador. Você pode parar e continuar depois.</p></div>
+      ${CRISIS}
+      <div class="row">
+        <button class="btn" id="startAll">${doneCount === 0 ? "Começar a avaliação" : doneCount < S.length ? "Continuar de onde parei" : "Refazer tudo"}</button>
+        ${doneCount ? `<button class="btn ghost" id="seeResults">Ver resultado (${doneCount}/${S.length} etapas)</button>` : ""}
+      </div>
+      <ol class="steps">
+        ${S.map((s, i) => `
+          <li>
+            <span class="n">${String(i + 1).padStart(2, "0")}</span>
+            <div class="body">
+              <strong>${esc(s.name)}</strong>
+              <span class="muted small">${esc(s.about)}</span>
+              <span class="meta">${s.items.length} perguntas${s.validated ? " · instrumento validado" : ""} · ${done(s.id) ? '<span class="chip ok">Concluída</span>' : Array.isArray(state.answers[s.id]) && state.answers[s.id].some(num) ? '<span class="chip warn">Em andamento</span>' : '<span class="chip none">Não iniciada</span>'}</span>
+            </div>
+            <button class="btn sm ${done(s.id) ? "ghost" : ""}" data-start="${s.id}">${done(s.id) ? "Refazer" : "Fazer"}</button>
+          </li>`).join("")}
+      </ol>
+      ${PAGE.sources}
+    </div>`;
+  app.querySelector("#startAll").onclick = () => {
+    const pending = S.filter(s => !done(s.id)).map(s => s.id);
+    if (!pending.length) S.forEach(s => { state.answers[s.id] = []; });
+    startQueue(pending.length ? pending : S.map(s => s.id));
+  };
+  const sr = app.querySelector("#seeResults");
+  if (sr) sr.onclick = () => go("results");
+  app.querySelectorAll("[data-start]").forEach(b => b.onclick = () => {
+    if (done(b.dataset.start)) state.answers[b.dataset.start] = [];
+    startQueue([b.dataset.start]);
+  });
+}
+
+function startQueue(ids) { state.queue = ids.slice(); nextSection(); }
+
+// Abre a próxima etapa da fila, na primeira pergunta visível ainda sem resposta.
+function nextSection() {
+  state.sec = state.queue.shift();
+  const sec = sectionById(state.sec);
+  if (!Array.isArray(state.answers[sec.id])) state.answers[sec.id] = [];
+  const a = state.answers[sec.id];
+  let i = 0;
+  while (i < sec.items.length && (num(a[i]) || !visible(sec.items[i], a))) i++;
+  state.idx = i < sec.items.length ? i : firstVisible(sec, a);
+  go("quiz");
+}
+function firstVisible(sec, a) { const i = sec.items.findIndex(it => visible(it, a)); return i < 0 ? 0 : i; }
+function nextVisible(sec, a, from) {
+  for (let j = from + 1; j < sec.items.length; j++) if (visible(sec.items[j], a)) return j;
+  return -1;
+}
+function prevVisible(sec, a, from) {
+  for (let j = from - 1; j >= 0; j--) if (visible(sec.items[j], a)) return j;
+  return -1;
+}
+
+function go(view) { state.view = view; render(); window.scrollTo(0, 0); }
+
+function renderQuiz() {
+  const sec = sectionById(state.sec);
+  const a = state.answers[sec.id];
+  const it = sec.items[state.idx];
+  const opts = it.options || sec.options;
+  const total = sec.items.length;
+  const secNum = PAGE.sections.indexOf(sec) + 1;
+  const showCrisis = (sec.crisisAtStart && state.idx === firstVisible(sec, a)) || PAGE.needsCrisis(state.answers);
+  app.innerHTML = `
+    <div class="quiz">
+      <div class="qnav">
+        <button class="btn ghost sm" id="exit">Salvar e sair</button>
+        <span class="count">Etapa ${secNum} de ${PAGE.sections.length} · pergunta ${state.idx + 1} de ${total}</span>
+      </div>
+      <div class="progress" aria-hidden="true"><span style="width:${Math.round((state.idx / total) * 100)}%"></span></div>
+      ${state.idx === firstVisible(sec, a) ? `<div class="instr"><strong>${esc(sec.name)}</strong><br>${esc(sec.instr)}</div>` : ""}
+      ${showCrisis ? CRISIS : ""}
+      ${it.tag ? `<span class="eyebrow">${esc(it.tag)}</span>` : ""}
+      <p class="question" id="q">${sec.prefix && !it.noPrefix ? `<span class="prefix">${esc(sec.prefix)}</span>` : ""}${esc(it.t)}</p>
+      ${it.hint ? `<p class="hint">${esc(it.hint)}</p>` : ""}
+      <div class="options" role="group" aria-labelledby="q">
+        ${opts.map((o, i) => `<button class="opt" data-v="${i}" aria-pressed="${a[state.idx] === i}"><kbd>${i + 1}</kbd><span>${esc(o)}</span></button>`).join("")}
+      </div>
+      <div class="qnav">
+        <button class="btn ghost sm" id="back" ${prevVisible(sec, a, state.idx) < 0 ? "disabled" : ""}>Voltar</button>
+        <span class="count">Teclas 1–${opts.length}</span>
+      </div>
+    </div>`;
+  app.querySelectorAll(".opt").forEach(b => b.onclick = () => choose(+b.dataset.v));
+  app.querySelector("#back").onclick = back;
+  app.querySelector("#exit").onclick = () => { save(); go("home"); };
+}
+
+function back() {
+  const sec = sectionById(state.sec);
+  const p = prevVisible(sec, state.answers[sec.id], state.idx);
+  if (p >= 0) { state.idx = p; render(); }
+}
+
+function choose(v) {
+  const sec = sectionById(state.sec);
+  const a = state.answers[sec.id];
+  a[state.idx] = v;
+  // Perguntas que deixaram de valer são apagadas, para não pesarem na pontuação
+  sec.items.forEach((it, i) => { if (!visible(it, a)) a[i] = undefined; });
+  save();
+  app.querySelectorAll(".opt").forEach(b => b.setAttribute("aria-pressed", +b.dataset.v === v));
+  setTimeout(() => {
+    const n = nextVisible(sec, a, state.idx);
+    if (n >= 0) { state.idx = n; render(); return; }
+    if (state.queue.length) nextSection();
+    else go("results");
+  }, 160);
+}
+
+document.addEventListener("keydown", e => {
+  if (state.view !== "quiz" || e.altKey || e.ctrlKey || e.metaKey) return;
+  const sec = sectionById(state.sec);
+  const opts = sec.items[state.idx].options || sec.options;
+  const n = parseInt(e.key, 10);
+  if (n >= 1 && n <= opts.length) choose(n - 1);
+  else if (e.key === "Backspace") back();
+});
+
+/* ---------- Peças do resultado ---------- */
+function meter(score, max, cuts, label, thin) {
+  const p = v => (v / max) * 100;
+  return `<div class="meter">
+    <div class="lbl"><span>${label}</span><span>${score} / ${max}</span></div>
+    <div class="track${thin ? " thin" : ""}" role="img" aria-label="${label}: ${score} de ${max}">
+      <div class="fill" style="width:${p(score)}%"></div>
+      ${cuts.map(c => `<div class="cut" style="left:calc(${p(c.v)}% - 1px)"><span>${c.l}</span></div>`).join("")}
+    </div></div>`;
+}
+function resultCard(title, chipText, level, body) {
+  return `<article class="result">
+    <div class="result-head"><h3>${title}</h3>${chipText ? `<span class="chip ${level}">${chipText}</span>` : ""}</div>
+    ${body}
+  </article>`;
+}
+
+function renderResults() {
+  const R = PAGE.compute(state.answers, done);
+  const missing = PAGE.sections.filter(s => !done(s.id)).map(s => s.short);
+  app.innerHTML = `
+    <header class="top">
+      <span class="eyebrow">Resultado · ${PAGE.sections.length - missing.length} de ${PAGE.sections.length} etapas</span>
+      <h1>Seu perfil</h1>
+      <div class="row"><button class="btn ghost sm" id="home">Voltar ao início</button></div>
+    </header>
+    <div class="stack-lg">
+      ${missing.length ? `<div class="notice"><p class="small">Etapas não concluídas: ${missing.join(", ")}. O resultado fica mais preciso com todas as etapas.</p></div>` : ""}
+      ${PAGE.results(R)}
+      <section class="block">
+        <label for="summaryText" class="eyebrow">Resumo para levar à consulta</label>
+        <textarea id="summaryText" readonly>${esc(PAGE.summary(R))}</textarea>
+        <div class="row">
+          <button class="btn sm" id="copy">Copiar resumo</button>
+          <span class="muted small" id="copyMsg" aria-live="polite"></span>
+        </div>
+        <div class="row">
+          <button class="btn ghost sm" id="reset">Apagar todas as respostas</button>
+          <span id="resetConfirm" hidden><button class="btn sm" id="resetYes">Confirmar: apagar</button></span>
+        </div>
+      </section>
+      ${PAGE.sources}
+    </div>`;
+  app.querySelector("#home").onclick = () => go("home");
+  app.querySelector("#copy").onclick = () => {
+    const ta = app.querySelector("#summaryText"), msg = app.querySelector("#copyMsg");
+    const fallback = () => { ta.focus(); ta.select(); msg.textContent = "Texto selecionado. Use Ctrl+C (ou Copiar) para copiar."; };
+    try { navigator.clipboard.writeText(ta.value).then(() => msg.textContent = "Resumo copiado.", fallback); } catch (e) { fallback(); }
+  };
+  app.querySelector("#reset").onclick = () => { app.querySelector("#resetConfirm").hidden = false; };
+  app.querySelector("#resetYes").onclick = () => { state.answers = {}; save(); go("home"); };
+}
+
+function render() {
+  if (state.view === "quiz") renderQuiz();
+  else if (state.view === "results") renderResults();
+  else renderHome();
+}
+render();
+</script>
