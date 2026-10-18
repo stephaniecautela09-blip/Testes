@@ -1,0 +1,745 @@
+<title>Rastreio Neuro e Humor</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Questionários de rastreio validados para autismo, TDAH, ansiedade, depressão e bipolaridade. Não é diagnóstico.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: uma coluna de leitura (~44rem); painel de módulos em grade que vira uma coluna no celular; questionário em tela única com uma pergunta por vez. */
+:root {
+  --bg: #f2f4f1;
+  --surface: #ffffff;
+  --ink: #1d2a2b;
+  --muted: #5b6a69;
+  --line: #d6ddd9;
+  --accent: #1f6a66;
+  --accent-ink: #ffffff;
+  --accent-soft: #dcebe8;
+  --ok: #2f7a4b;
+  --ok-soft: #e1f0e5;
+  --warn: #9a6400;
+  --warn-soft: #f8ecd2;
+  --alert: #b23a2c;
+  --alert-soft: #f8e0db;
+  --font-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Atkinson Hyperlegible", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --r: 10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #131a1a; --surface: #1b2423; --ink: #e4ecea; --muted: #9db0ad; --line: #2e3b3a;
+    --accent: #6cc3bb; --accent-ink: #0f1c1b; --accent-soft: #1f3533;
+    --ok: #7fcf9a; --ok-soft: #1c3226; --warn: #e8b660; --warn-soft: #3a2e17;
+    --alert: #f08f80; --alert-soft: #3d221e; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #131a1a; --surface: #1b2423; --ink: #e4ecea; --muted: #9db0ad; --line: #2e3b3a;
+  --accent: #6cc3bb; --accent-ink: #0f1c1b; --accent-soft: #1f3533;
+  --ok: #7fcf9a; --ok-soft: #1c3226; --warn: #e8b660; --warn-soft: #3a2e17;
+  --alert: #f08f80; --alert-soft: #3d221e; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink);
+  font-family: var(--font-body); font-size: 1.0625rem; line-height: 1.6;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0 4rem;
+  margin: 0;
+}
+.wrap { max-width: 46rem; margin: 0 auto; }
+h1, h2, h3 { font-family: var(--font-display); line-height: 1.15; text-wrap: balance; margin: 0; }
+h1 { font-size: clamp(2rem, 6vw, 2.9rem); font-weight: 700; letter-spacing: -0.01em; }
+h2 { font-size: 1.6rem; font-weight: 700; }
+h3 { font-size: 1.2rem; font-weight: 700; }
+p { margin: 0; }
+a { color: var(--accent); }
+.eyebrow { font-family: var(--font-data); font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.muted { color: var(--muted); }
+.stack { display: flex; flex-direction: column; gap: 1rem; }
+.stack-lg { display: flex; flex-direction: column; gap: 2rem; }
+button { font: inherit; cursor: pointer; }
+button:focus-visible, a:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+header.top { padding-block: 2.5rem 1.5rem; display: flex; flex-direction: column; gap: 0.9rem; }
+header.top .lede { font-size: 1.15rem; max-width: 38rem; }
+
+.notice { border: 1px solid var(--line); background: var(--surface); border-radius: var(--r); padding: 1rem 1.1rem; display: flex; flex-direction: column; gap: 0.5rem; }
+.notice.crisis { border-color: var(--alert); background: var(--alert-soft); }
+.notice.crisis strong { color: var(--alert); }
+.phone { font-family: var(--font-data); font-weight: 500; font-size: 1.05rem; }
+
+.btn { border: 1px solid var(--accent); background: var(--accent); color: var(--accent-ink); padding: 0.7rem 1.2rem; border-radius: 999px; font-weight: 700; }
+.btn.ghost { background: transparent; color: var(--accent); }
+.btn.small { padding: 0.4rem 0.9rem; font-size: 0.95rem; }
+.btn:disabled { opacity: 0.45; cursor: default; }
+.row { display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center; }
+
+.areas { display: grid; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); gap: 1rem; }
+.area { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 1.1rem; display: flex; flex-direction: column; gap: 0.7rem; min-width: 0; }
+.area .tools { display: flex; flex-direction: column; gap: 0.5rem; margin-top: auto; }
+.tool { display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; border-top: 1px solid var(--line); padding-top: 0.6rem; }
+.tool .meta { font-size: 0.85rem; color: var(--muted); font-family: var(--font-data); }
+.chip { display: inline-block; font-family: var(--font-data); font-size: 0.75rem; padding: 0.15rem 0.55rem; border-radius: 999px; background: var(--accent-soft); color: var(--accent); white-space: nowrap; }
+.chip.ok { background: var(--ok-soft); color: var(--ok); }
+.chip.warn { background: var(--warn-soft); color: var(--warn); }
+.chip.alert { background: var(--alert-soft); color: var(--alert); }
+
+/* Questionário */
+.quiz { padding-block: 1.5rem; display: flex; flex-direction: column; gap: 1.25rem; }
+.progress { height: 6px; background: var(--line); border-radius: 999px; overflow: hidden; }
+.progress > span { display: block; height: 100%; background: var(--accent); transition: width .25s ease; }
+.instr { background: var(--accent-soft); border-radius: var(--r); padding: 0.8rem 1rem; font-size: 0.98rem; }
+.question { font-family: var(--font-display); font-size: clamp(1.3rem, 4vw, 1.65rem); font-weight: 500; line-height: 1.3; text-wrap: pretty; }
+.prefix { color: var(--muted); font-size: 1rem; font-family: var(--font-body); display: block; margin-bottom: 0.35rem; }
+.options { display: flex; flex-direction: column; gap: 0.55rem; }
+.opt { text-align: left; background: var(--surface); color: var(--ink); border: 1.5px solid var(--line); border-radius: var(--r); padding: 0.85rem 1rem; display: flex; gap: 0.85rem; align-items: center; }
+.opt:hover { border-color: var(--accent); }
+.opt[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); font-weight: 700; }
+.opt kbd { font-family: var(--font-data); font-size: 0.8rem; color: var(--muted); border: 1px solid var(--line); border-radius: 5px; padding: 0 0.4rem; min-width: 1.6rem; text-align: center; }
+.qnav { display: flex; justify-content: space-between; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
+.count { font-family: var(--font-data); font-size: 0.85rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+
+/* Resultados */
+.result { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 1.2rem; display: flex; flex-direction: column; gap: 0.9rem; min-width: 0; }
+.result.flag-alert { border-left: 5px solid var(--alert); }
+.result.flag-warn { border-left: 5px solid var(--warn); }
+.result.flag-ok { border-left: 5px solid var(--ok); }
+.result-head { display: flex; justify-content: space-between; gap: 0.75rem; flex-wrap: wrap; align-items: baseline; }
+.meter { display: flex; flex-direction: column; gap: 0.3rem; }
+.meter .lbl { display: flex; justify-content: space-between; font-family: var(--font-data); font-size: 0.85rem; font-variant-numeric: tabular-nums; gap: 0.5rem; }
+.track { position: relative; height: 12px; background: var(--line); border-radius: 999px; margin-bottom: 1.3rem; }
+.track .fill { position: absolute; inset: 0 auto 0 0; border-radius: 999px; background: var(--accent); }
+.track .cut { position: absolute; top: -4px; bottom: -4px; width: 2px; background: var(--ink); }
+.track .cut span { position: absolute; top: 18px; left: 50%; transform: translateX(-50%); font-family: var(--font-data); font-size: 0.7rem; color: var(--muted); white-space: nowrap; }
+.result ul { margin: 0; padding-left: 1.2rem; display: flex; flex-direction: column; gap: 0.3rem; }
+details { border-top: 1px solid var(--line); padding-top: 0.7rem; }
+summary { cursor: pointer; font-weight: 700; color: var(--accent); }
+details > div { padding-top: 0.6rem; display: flex; flex-direction: column; gap: 0.6rem; }
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; }
+.tablewrap { overflow-x: auto; }
+th, td { text-align: left; padding: 0.4rem 0.5rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-family: var(--font-data); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); font-weight: 500; }
+td.num { font-family: var(--font-data); font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+.sources ol { padding-left: 1.3rem; margin: 0; display: flex; flex-direction: column; gap: 0.55rem; font-size: 0.93rem; }
+section.block { display: flex; flex-direction: column; gap: 1rem; padding-top: 2rem; border-top: 1px solid var(--line); }
+textarea#summaryText { width: 100%; min-height: 9rem; font-family: var(--font-data); font-size: 0.82rem; background: var(--surface); color: var(--ink); border: 1px solid var(--line); border-radius: var(--r); padding: 0.7rem; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="wrap" id="app"></div>
+
+<script>
+"use strict";
+
+/* ---------- Instrumentos ---------- */
+const FREQ_GAD_PHQ = ["Nenhuma vez", "Vários dias", "Mais da metade dos dias", "Quase todos os dias"];
+const AQ_OPTS = ["Concordo totalmente", "Concordo um pouco", "Discordo um pouco", "Discordo totalmente"];
+const RAADS_OPTS = ["Verdadeiro agora e quando eu era jovem", "Verdadeiro só agora", "Verdadeiro só quando eu tinha menos de 16 anos", "Nunca foi verdadeiro"];
+const ASRS_OPTS = ["Nunca", "Raramente", "Às vezes", "Frequentemente", "Muito frequentemente"];
+const YESNO = ["Sim", "Não"];
+
+const MODULES = [
+  {
+    id: "aq10", area: "autismo", short: "AQ-10",
+    name: "Quociente do Espectro Autista (AQ-10)",
+    minutes: 2,
+    instr: "Leia cada frase e marque o quanto você concorda ou discorda. Pense em como você é na maior parte do tempo, ao longo da vida.",
+    options: AQ_OPTS,
+    // dir "A": pontua ao concordar; "D": pontua ao discordar
+    items: [
+      ["Frequentemente percebo pequenos sons que os outros não percebem.", "A"],
+      ["Normalmente me concentro mais no todo do que nos pequenos detalhes.", "D"],
+      ["Acho fácil fazer mais de uma coisa ao mesmo tempo.", "D"],
+      ["Se acontece uma interrupção, consigo voltar rapidamente ao que eu estava fazendo.", "D"],
+      ["Acho fácil “ler nas entrelinhas” quando alguém está falando comigo.", "D"],
+      ["Sei perceber quando alguém que está me ouvindo está ficando entediado.", "D"],
+      ["Quando leio uma história, acho difícil entender as intenções dos personagens.", "A"],
+      ["Gosto de juntar informações sobre categorias de coisas (por exemplo: tipos de carro, de pássaro, de trem, de planta).", "A"],
+      ["Acho fácil saber o que alguém está pensando ou sentindo só de olhar para o rosto da pessoa.", "D"],
+      ["Acho difícil entender as intenções das pessoas.", "A"]
+    ].map(([t, dir]) => ({ t, dir }))
+  },
+  {
+    id: "raads14", area: "autismo", short: "RAADS-14",
+    name: "RAADS-14 Screen (Ritvo Autism Asperger Diagnostic Scale, 14 itens)",
+    minutes: 3,
+    instr: "Para cada frase, escolha a opção que descreve quando ela foi verdadeira para você: hoje, na infância/adolescência (antes dos 16 anos), nos dois períodos ou nunca.",
+    options: RAADS_OPTS,
+    items: [
+      { t: "É difícil para mim entender como as outras pessoas estão se sentindo quando estamos conversando." },
+      { t: "Algumas texturas comuns, que não incomodam os outros, me parecem muito desagradáveis quando tocam minha pele." },
+      { t: "É muito difícil para mim trabalhar e funcionar em grupo." },
+      { t: "É difícil descobrir o que as outras pessoas esperam de mim." },
+      { t: "Muitas vezes não sei como agir em situações sociais." },
+      { t: "Consigo bater papo e jogar conversa fora com as pessoas.", rev: true },
+      { t: "Quando fico sobrecarregado(a) pelos meus sentidos, preciso me isolar para desligá-los." },
+      { t: "Como fazer amigos e me socializar é um mistério para mim." },
+      { t: "Quando converso com alguém, tenho dificuldade de saber quando é a minha vez de falar ou de ouvir." },
+      { t: "Às vezes preciso tapar os ouvidos para bloquear barulhos que me incomodam muito (como aspirador de pó ou pessoas falando demais ou alto demais)." },
+      { t: "Pode ser muito difícil ler o rosto, as mãos e os movimentos do corpo de alguém quando estamos conversando." },
+      { t: "Eu me concentro nos detalhes, e não na ideia geral." },
+      { t: "Eu levo as coisas ao pé da letra e, por isso, muitas vezes não entendo o que as pessoas querem dizer." },
+      { t: "Fico extremamente incomodado(a) quando o meu jeito de fazer as coisas é mudado de repente." }
+    ]
+  },
+  {
+    id: "asrs", area: "tdah", short: "ASRS-18",
+    name: "Escala de Autorrelato de TDAH em Adultos (ASRS v1.1, OMS)",
+    minutes: 4,
+    instr: "Pense nos últimos 6 meses. Marque com que frequência cada situação aconteceu com você.",
+    prefix: "Nos últimos 6 meses…",
+    options: ASRS_OPTS,
+    // th: menor resposta (0–4) que cai na área sombreada do formulário oficial; dom: I = desatenção, H = hiperatividade/impulsividade
+    items: [
+      ["Com que frequência você tem dificuldade para concluir os detalhes finais de um projeto, depois que as partes mais difíceis já foram feitas?", 2, "I"],
+      ["Com que frequência você tem dificuldade para pôr as coisas em ordem quando precisa fazer uma tarefa que exige organização?", 2, "I"],
+      ["Com que frequência você tem problemas para se lembrar de compromissos ou obrigações?", 2, "I"],
+      ["Quando você tem uma tarefa que exige muita concentração, com que frequência você evita ou adia o começo?", 3, "I"],
+      ["Com que frequência você fica mexendo ou balançando as mãos ou os pés quando precisa ficar sentado(a) por muito tempo?", 3, "H"],
+      ["Com que frequência você se sente ativo(a) demais e levado(a) a fazer coisas, como se estivesse “com um motor ligado”?", 3, "H"],
+      ["Com que frequência você comete erros por falta de cuidado quando precisa trabalhar em algo chato ou difícil?", 3, "I"],
+      ["Com que frequência você tem dificuldade para manter a atenção quando está fazendo um trabalho chato ou repetitivo?", 3, "I"],
+      ["Com que frequência você tem dificuldade para se concentrar no que as pessoas dizem, mesmo quando estão falando diretamente com você?", 2, "I"],
+      ["Com que frequência você coloca as coisas fora do lugar ou tem dificuldade para encontrá-las em casa ou no trabalho?", 3, "I"],
+      ["Com que frequência você se distrai com atividades ou barulhos à sua volta?", 3, "I"],
+      ["Com que frequência você se levanta da cadeira em reuniões ou em outras situações em que deveria ficar sentado(a)?", 2, "H"],
+      ["Com que frequência você se sente inquieto(a) ou agitado(a)?", 3, "H"],
+      ["Com que frequência você tem dificuldade para sossegar e relaxar quando tem tempo livre?", 3, "H"],
+      ["Com que frequência você se pega falando demais em situações sociais?", 3, "H"],
+      ["Numa conversa, com que frequência você se pega terminando as frases das pessoas antes que elas mesmas terminem?", 2, "H"],
+      ["Com que frequência você tem dificuldade para esperar a sua vez quando isso é necessário?", 3, "H"],
+      ["Com que frequência você interrompe os outros quando eles estão ocupados?", 2, "H"]
+    ].map(([t, th, dom]) => ({ t, th, dom }))
+  },
+  {
+    id: "gad7", area: "ansiedade", short: "GAD-7",
+    name: "Escala de Ansiedade Generalizada (GAD-7)",
+    minutes: 1,
+    instr: "Nas últimas 2 semanas, com que frequência você foi incomodado(a) pelos problemas abaixo?",
+    prefix: "Nas últimas 2 semanas…",
+    options: FREQ_GAD_PHQ,
+    items: [
+      "Sentir-se nervoso(a), ansioso(a) ou muito tenso(a)",
+      "Não conseguir impedir ou controlar as preocupações",
+      "Preocupar-se demais com coisas diferentes",
+      "Dificuldade para relaxar",
+      "Ficar tão inquieto(a) que se torna difícil permanecer sentado(a)",
+      "Ficar facilmente aborrecido(a) ou irritado(a)",
+      "Sentir medo, como se algo horrível fosse acontecer"
+    ].map(t => ({ t }))
+  },
+  {
+    id: "phq9", area: "depressao", short: "PHQ-9",
+    name: "Questionário de Saúde do Paciente (PHQ-9)",
+    minutes: 2,
+    instr: "Nas últimas 2 semanas, com que frequência você foi incomodado(a) pelos problemas abaixo?",
+    prefix: "Nas últimas 2 semanas…",
+    options: FREQ_GAD_PHQ,
+    items: [
+      { t: "Pouco interesse ou pouco prazer em fazer as coisas" },
+      { t: "Sentir-se para baixo, deprimido(a) ou sem perspectiva" },
+      { t: "Dificuldade para pegar no sono ou permanecer dormindo, ou dormir mais do que de costume" },
+      { t: "Sentir-se cansado(a) ou com pouca energia" },
+      { t: "Falta de apetite ou comer demais" },
+      { t: "Sentir-se mal consigo mesmo(a), achar que é um fracasso ou que decepcionou sua família ou a si mesmo(a)" },
+      { t: "Dificuldade para se concentrar nas coisas, como ler ou assistir televisão" },
+      { t: "Mover-se ou falar tão devagar que outras pessoas poderiam notar; ou o oposto: estar tão agitado(a) ou inquieto(a) que fica andando de um lado para o outro muito mais do que de costume" },
+      { t: "Pensar em se ferir de alguma maneira ou que seria melhor estar morto(a)", safety: true },
+      { t: "Se você teve algum desses problemas, quanta dificuldade eles causaram para trabalhar, cuidar das coisas de casa ou se relacionar com as pessoas?", extra: true, noPrefix: true,
+        options: ["Nenhuma dificuldade", "Alguma dificuldade", "Muita dificuldade", "Extrema dificuldade"] }
+    ]
+  },
+  {
+    id: "mdq", area: "bipolar", short: "MDQ",
+    name: "Questionário de Transtornos do Humor (MDQ)",
+    minutes: 3,
+    instr: "Pense na sua vida toda. Já houve algum período em que você não estava como de costume e as situações abaixo aconteceram? Não conte períodos em que você estava sob efeito de álcool ou outras drogas.",
+    prefix: "Já houve um período em que você não estava como de costume e…",
+    options: YESNO,
+    items: [
+      { t: "…se sentiu tão bem ou tão “acelerado(a)” que outras pessoas acharam que você não estava normal, ou ficou tão acelerado(a) que se meteu em problemas?" },
+      { t: "…ficou tão irritado(a) que gritou com pessoas ou começou brigas ou discussões?" },
+      { t: "…se sentiu muito mais autoconfiante do que de costume?" },
+      { t: "…dormiu muito menos do que de costume e não sentiu falta do sono?" },
+      { t: "…ficou muito mais falante ou falou muito mais rápido do que de costume?" },
+      { t: "…os pensamentos corriam pela sua cabeça e você não conseguia desacelerar a mente?" },
+      { t: "…se distraía tão facilmente com as coisas à sua volta que tinha dificuldade para se concentrar ou manter o foco?" },
+      { t: "…teve muito mais energia do que de costume?" },
+      { t: "…ficou muito mais ativo(a) ou fez muito mais coisas do que de costume?" },
+      { t: "…ficou muito mais sociável ou extrovertido(a) do que de costume, por exemplo, telefonando para amigos no meio da noite?" },
+      { t: "…ficou muito mais interessado(a) em sexo do que de costume?" },
+      { t: "…fez coisas incomuns para você, ou que outras pessoas poderiam achar exageradas, imprudentes ou arriscadas?" },
+      { t: "…gastou dinheiro de um jeito que trouxe problemas para você ou sua família?" },
+      { t: "Se você respondeu “Sim” a mais de uma das perguntas anteriores, várias dessas coisas aconteceram durante o mesmo período?", key: "cluster", noPrefix: true,
+        options: ["Sim", "Não", "Respondi “Sim” a uma ou nenhuma"] },
+      { t: "Quanto problema essas coisas causaram a você? Por exemplo: não conseguir trabalhar; problemas familiares, financeiros ou legais; envolver-se em brigas.", key: "impact", noPrefix: true,
+        options: ["Nenhum problema", "Problema leve", "Problema moderado", "Problema sério"] },
+      { t: "Algum parente de sangue seu (filhos, irmãos, pais, avós, tios) tem transtorno bipolar (antes chamado de psicose maníaco-depressiva)?", key: "family", noPrefix: true,
+        options: ["Sim", "Não", "Não sei"] },
+      { t: "Algum profissional de saúde já disse que você tem transtorno bipolar?", key: "prior", noPrefix: true,
+        options: ["Sim", "Não"] }
+    ]
+  }
+];
+
+const AREAS = [
+  { id: "autismo", name: "Autismo (TEA)", blurb: "Dois questionários complementares para adultos: o AQ-10, recomendado pelo NICE (Reino Unido), e o RAADS-14, que pergunta também sobre a infância." },
+  { id: "tdah", name: "TDAH", blurb: "A escala de 18 itens da Organização Mundial da Saúde. Os 6 primeiros itens formam o rastreio principal; os outros 12 mostram o perfil." },
+  { id: "ansiedade", name: "Ansiedade", blurb: "O GAD-7 mede sintomas de ansiedade generalizada nas últimas 2 semanas e também ajuda a detectar pânico e ansiedade social." },
+  { id: "depressao", name: "Depressão", blurb: "O PHQ-9 segue os 9 critérios de episódio depressivo do DSM. É validado em população brasileira." },
+  { id: "bipolar", name: "Bipolaridade", blurb: "O MDQ procura, ao longo da vida, períodos de euforia ou irritabilidade com energia aumentada (mania ou hipomania)." }
+];
+
+/* ---------- Pontuação ---------- */
+function answered(mod, ans) { return mod.items.every((_, i) => typeof ans[i] === "number"); }
+
+function scoreModule(id, a) {
+  const mod = MODULES.find(m => m.id === id);
+  if (id === "aq10") {
+    let s = 0;
+    mod.items.forEach((it, i) => {
+      const agree = a[i] <= 1;
+      if ((it.dir === "A" && agree) || (it.dir === "D" && !agree)) s++;
+    });
+    return { score: s, max: 10, cut: 6, positive: s >= 6, level: s >= 6 ? "alert" : s >= 4 ? "warn" : "ok" };
+  }
+  if (id === "raads14") {
+    let s = 0;
+    mod.items.forEach((it, i) => { const v = 3 - a[i]; s += it.rev ? 3 - v : v; });
+    return { score: s, max: 42, cut: 14, positive: s >= 14, level: s >= 14 ? "alert" : s >= 10 ? "warn" : "ok" };
+  }
+  if (id === "asrs") {
+    const shaded = mod.items.map((it, i) => a[i] >= it.th);
+    const partA = shaded.slice(0, 6).filter(Boolean).length;
+    const partAScore = a.slice(0, 6).reduce((x, y) => x + y, 0);
+    const inatt = mod.items.filter((it, i) => it.dom === "I" && shaded[i]).length;
+    const hyper = mod.items.filter((it, i) => it.dom === "H" && shaded[i]).length;
+    const positive = partA >= 4;
+    return { score: partA, max: 6, cut: 4, positive, partAScore, inatt, hyper,
+      level: positive ? "alert" : (partA === 3 || partAScore >= 14) ? "warn" : "ok" };
+  }
+  if (id === "gad7") {
+    const s = a.reduce((x, y) => x + y, 0);
+    const band = s >= 15 ? "grave" : s >= 10 ? "moderada" : s >= 5 ? "leve" : "mínima";
+    return { score: s, max: 21, cut: 10, positive: s >= 10, band, level: s >= 10 ? "alert" : s >= 5 ? "warn" : "ok" };
+  }
+  if (id === "phq9") {
+    const core = a.slice(0, 9);
+    const s = core.reduce((x, y) => x + y, 0);
+    const band = s >= 20 ? "grave" : s >= 15 ? "moderadamente grave" : s >= 10 ? "moderada" : s >= 5 ? "leve" : "mínima";
+    const present = core.filter((v, i) => i === 8 ? v >= 1 : v >= 2).length;
+    const algorithm = present >= 5 && (core[0] >= 2 || core[1] >= 2);
+    return { score: s, max: 27, cut: 10, positive: s >= 10, band, algorithm, safety: core[8] >= 1, impact: a[9],
+      level: (s >= 10 || core[8] >= 1) ? "alert" : s >= 5 ? "warn" : "ok" };
+  }
+  if (id === "mdq") {
+    const yes = a.slice(0, 13).filter(v => v === 0).length;
+    const cluster = a[13] === 0;
+    const impact = a[14] >= 2;
+    const positive = yes >= 7 && cluster && impact;
+    return { score: yes, max: 13, cut: 7, positive, cluster, impact, impactIdx: a[14], family: a[15] === 0, prior: a[16] === 0,
+      level: positive ? "alert" : (yes >= 7 || (yes >= 5 && cluster)) ? "warn" : "ok" };
+  }
+}
+
+/* ---------- Estado ---------- */
+const STORE_KEY = "rastreio-neuro-humor-v1";
+let state = { answers: {}, queue: [], view: "home", mod: null, idx: 0 };
+try { const raw = localStorage.getItem(STORE_KEY); if (raw) state.answers = JSON.parse(raw).answers || {}; } catch (e) {}
+function save() { try { localStorage.setItem(STORE_KEY, JSON.stringify({ answers: state.answers })); } catch (e) {} }
+
+const app = document.getElementById("app");
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const modById = id => MODULES.find(m => m.id === id);
+const isDone = id => { const a = state.answers[id]; return a && answered(modById(id), a); };
+const LEVEL_LABEL = { ok: "Abaixo do ponto de corte", warn: "Alguns sinais", alert: "Acima do ponto de corte" };
+// O item 9 do PHQ-9 pede atenção mesmo com pontuação total abaixo do corte.
+const levelText = r => r.safety && !r.positive ? "Atenção ao item 9" : LEVEL_LABEL[r.level];
+
+/* ---------- Telas ---------- */
+const CRISIS = `
+  <div class="notice crisis" role="note">
+    <p><strong>Se você está pensando em se machucar ou em suicídio, procure ajuda agora.</strong></p>
+    <p>CVV (Centro de Valorização da Vida): <span class="phone">188</span>, ligação gratuita, 24 horas, ou chat em cvv.org.br. Emergência: SAMU <span class="phone">192</span> ou vá a uma UPA/pronto-socorro.</p>
+  </div>`;
+
+function renderHome() {
+  const doneCount = MODULES.filter(m => isDone(m.id)).length;
+  app.innerHTML = `
+    <header class="top">
+      <span class="eyebrow">Rastreio · 6 questionários validados · cerca de 15 minutos</span>
+      <h1>Rastreio Neuro e Humor</h1>
+      <p class="lede">Questionários usados por profissionais de saúde para identificar sinais de autismo, TDAH, ansiedade, depressão e transtorno bipolar em adultos.</p>
+    </header>
+    <div class="stack-lg">
+      <div class="notice">
+        <p><strong>Isto não é um diagnóstico.</strong> Questionários de rastreio apontam quem deve passar por uma avaliação completa. Só um profissional (psiquiatra, psicólogo ou neuropsicólogo) pode diagnosticar, depois de entrevista, histórico de vida e, quando necessário, testes específicos. Um resultado alto não confirma nada; um resultado baixo não descarta nada.</p>
+        <p class="muted">Suas respostas ficam apenas neste navegador e não são enviadas para lugar nenhum.</p>
+      </div>
+      ${CRISIS}
+      <div class="row">
+        <button class="btn" id="startAll">${doneCount ? "Continuar os que faltam" : "Começar todos em sequência"}</button>
+        ${doneCount ? `<button class="btn ghost" id="seeResults">Ver resultados (${doneCount}/${MODULES.length})</button>` : ""}
+      </div>
+      <div class="areas">
+        ${AREAS.map(area => `
+          <div class="area">
+            <h3>${area.name}</h3>
+            <p class="muted">${area.blurb}</p>
+            <div class="tools">
+              ${MODULES.filter(m => m.area === area.id).map(m => {
+                const done = isDone(m.id);
+                const r = done ? scoreModule(m.id, state.answers[m.id]) : null;
+                return `<div class="tool">
+                  <div><strong>${m.short}</strong> <span class="meta">${m.items.length} itens · ~${m.minutes} min</span><br>
+                  ${done ? `<span class="chip ${r.level}">${levelText(r)}</span>` : `<span class="chip">Não feito</span>`}</div>
+                  <button class="btn small ${done ? "ghost" : ""}" data-start="${m.id}">${done ? "Refazer" : "Fazer"}</button>
+                </div>`;
+              }).join("")}
+            </div>
+          </div>`).join("")}
+      </div>
+      ${renderSources()}
+    </div>`;
+  app.querySelector("#startAll").onclick = () => {
+    const pending = MODULES.filter(m => !isDone(m.id)).map(m => m.id);
+    startQueue(pending.length ? pending : MODULES.map(m => m.id));
+  };
+  const sr = app.querySelector("#seeResults");
+  if (sr) sr.onclick = () => go("results");
+  app.querySelectorAll("[data-start]").forEach(b => b.onclick = () => startQueue([b.dataset.start]));
+}
+
+function startQueue(ids) { state.queue = ids.slice(); nextModule(); }
+
+// Começa o próximo questionário da fila; retoma um questionário pela metade, recomeça um já concluído.
+function nextModule() {
+  state.mod = state.queue.shift();
+  const mod = modById(state.mod);
+  let a = state.answers[mod.id];
+  if (!Array.isArray(a) || answered(mod, a)) a = state.answers[mod.id] = [];
+  let i = 0;
+  while (i < mod.items.length - 1 && typeof a[i] === "number") i++;
+  state.idx = i;
+  go("quiz");
+}
+
+function go(view) { state.view = view; render(); window.scrollTo(0, 0); }
+
+function renderQuiz() {
+  const mod = modById(state.mod);
+  const a = state.answers[mod.id];
+  const it = mod.items[state.idx];
+  const opts = it.options || mod.options;
+  const total = mod.items.length;
+  const pct = Math.round((state.idx / total) * 100);
+  const showSafety = mod.id === "phq9" && a[8] >= 1 && state.idx >= 9;
+  app.innerHTML = `
+    <div class="quiz">
+      <div class="qnav">
+        <button class="btn ghost small" id="exit">Sair</button>
+        <span class="count">${mod.short} · ${state.idx + 1} de ${total}${state.queue.length ? ` · faltam ${state.queue.length} questionário(s)` : ""}</span>
+      </div>
+      <div class="progress" aria-hidden="true"><span style="width:${pct}%"></span></div>
+      ${state.idx === 0 ? `<div class="instr"><strong>${esc(mod.name)}</strong><br>${esc(mod.instr)}</div>` : ""}
+      ${showSafety ? CRISIS : ""}
+      <p class="question" id="q">${mod.prefix && !it.noPrefix ? `<span class="prefix">${esc(mod.prefix)}</span>` : ""}${esc(it.t)}</p>
+      <div class="options" role="group" aria-labelledby="q">
+        ${opts.map((o, i) => `<button class="opt" data-v="${i}" aria-pressed="${a[state.idx] === i}"><kbd>${i + 1}</kbd><span>${esc(o)}</span></button>`).join("")}
+      </div>
+      <div class="qnav">
+        <button class="btn ghost small" id="back" ${state.idx === 0 ? "disabled" : ""}>Voltar</button>
+        <span class="count">Use as teclas 1–${opts.length}</span>
+      </div>
+    </div>`;
+  app.querySelectorAll(".opt").forEach(b => b.onclick = () => choose(+b.dataset.v));
+  app.querySelector("#back").onclick = () => { if (state.idx > 0) { state.idx--; render(); } };
+  app.querySelector("#exit").onclick = () => { save(); go("home"); };
+}
+
+function choose(v) {
+  const mod = modById(state.mod);
+  state.answers[mod.id][state.idx] = v;
+  save();
+  app.querySelectorAll(".opt").forEach(b => b.setAttribute("aria-pressed", +b.dataset.v === v));
+  setTimeout(() => {
+    if (state.idx < mod.items.length - 1) { state.idx++; render(); return; }
+    if (state.queue.length) nextModule();
+    else go("results");
+  }, 160);
+}
+
+document.addEventListener("keydown", e => {
+  if (state.view !== "quiz" || e.altKey || e.ctrlKey || e.metaKey) return;
+  const mod = modById(state.mod);
+  const opts = mod.items[state.idx].options || mod.options;
+  const n = parseInt(e.key, 10);
+  if (n >= 1 && n <= opts.length) choose(n - 1);
+  else if (e.key === "Backspace" && state.idx > 0) { state.idx--; render(); }
+});
+
+/* ---------- Resultados ---------- */
+function meter(score, max, cut, label) {
+  const p = v => (v / max) * 100;
+  return `<div class="meter">
+    <div class="lbl"><span>${label}</span><span>${score} / ${max}</span></div>
+    <div class="track" role="img" aria-label="${label}: ${score} de ${max}; ponto de corte ${cut}">
+      <div class="fill" style="width:${p(score)}%"></div>
+      <div class="cut" style="left:calc(${p(cut)}% - 1px)"><span>corte ${cut}</span></div>
+    </div></div>`;
+}
+
+function card(mod, r, body, extraDetails) {
+  return `<article class="result flag-${r.level}">
+    <div class="result-head"><h3>${esc(mod.name)}</h3><span class="chip ${r.level}">${levelText(r)}</span></div>
+    ${body}
+    ${extraDetails || ""}
+  </article>`;
+}
+
+function resultAQ(r) {
+  return card(modById("aq10"), r, `
+    ${meter(r.score, 10, 6, "Pontuação AQ-10")}
+    <p>${r.positive
+      ? "Sua pontuação está no ponto de corte usado pelo NICE (6 ou mais) para recomendar uma avaliação especializada de autismo."
+      : r.score >= 4
+        ? "Sua pontuação está abaixo do ponto de corte, mas não é zero. Isso é comum na população geral e também em pessoas autistas que aprenderam a compensar ou disfarçar dificuldades."
+        : "Sua pontuação está bem abaixo do ponto de corte de encaminhamento."}</p>`);
+}
+
+function resultRAADS(r) {
+  return card(modById("raads14"), r, `
+    ${meter(r.score, 42, 14, "Pontuação RAADS-14")}
+    <p>${r.positive
+      ? "Sua pontuação atinge o ponto de corte do estudo de validação (14 ou mais). No estudo original, o RAADS-14 identificou 97% dos adultos autistas, mas também deu positivo para muitas pessoas com TDAH e outras condições."
+      : "Sua pontuação está abaixo do ponto de corte do estudo de validação (14)."}</p>
+    <p class="muted">Referência do estudo original (medianas): adultos autistas 32, adultos com TDAH 15, outras condições psiquiátricas 11, pessoas sem condição psiquiátrica 3.</p>`);
+}
+
+function autismSummary(rAQ, rR) {
+  if (!rAQ && !rR) return "";
+  const both = rAQ && rR;
+  let msg;
+  if (both && rAQ.positive && rR.positive) msg = "Os dois questionários ficaram acima do ponto de corte. Esse padrão justifica procurar uma avaliação diagnóstica de autismo.";
+  else if ((rAQ && rAQ.positive) || (rR && rR.positive)) msg = both ? "Um dos dois questionários ficou acima do ponto de corte. Os sinais são parciais. Se você se reconhece nas dificuldades descritas desde a infância, vale conversar com um profissional." : "O questionário feito ficou acima do ponto de corte. Faça também o outro questionário de autismo para ter uma visão mais completa.";
+  else msg = both ? "Os dois questionários ficaram abaixo do ponto de corte." : "O questionário feito ficou abaixo do ponto de corte. Faça também o outro para ter uma visão mais completa.";
+  return `<div class="notice"><p><strong>Autismo, em conjunto:</strong> ${msg}</p></div>`;
+}
+
+const AUTISM_INFO = `
+  <details><summary>Sobre o autismo e os níveis de suporte</summary><div>
+    <p>O Transtorno do Espectro Autista (TEA), segundo o DSM-5-TR, envolve dois grupos de características presentes desde o início do desenvolvimento, mesmo que só fiquem evidentes quando as demandas sociais aumentam:</p>
+    <ul>
+      <li><strong>Comunicação e interação social:</strong> dificuldade na reciprocidade de conversas e emoções, na comunicação não verbal (olhar, gestos, expressões) e em iniciar, manter e entender relacionamentos.</li>
+      <li><strong>Padrões restritos e repetitivos:</strong> movimentos ou falas repetitivas, apego a rotinas e rigidez com mudanças, interesses muito intensos e específicos, e sensibilidade aumentada ou diminuída a sons, texturas, luzes, cheiros ou dor.</li>
+    </ul>
+    <p>O DSM-5-TR descreve <strong>3 níveis de suporte</strong>, definidos pelo profissional separadamente para cada um desses dois grupos:</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Nível</th><th>O que significa</th></tr></thead>
+      <tbody>
+        <tr><td class="num">1</td><td><strong>Exige apoio.</strong> Sem apoio, as dificuldades sociais causam prejuízo perceptível: dificuldade para iniciar interações, respostas atípicas, pouco interesse aparente. Inflexibilidade que atrapalha a organização e a troca entre atividades. É o nível mais diagnosticado em adultos com fala e independência preservadas.</td></tr>
+        <tr><td class="num">2</td><td><strong>Exige apoio substancial.</strong> Dificuldades sociais evidentes mesmo com apoio; comportamentos restritos visíveis para observadores e que atrapalham várias áreas da vida.</td></tr>
+        <tr><td class="num">3</td><td><strong>Exige apoio muito substancial.</strong> Prejuízo grave na comunicação verbal e não verbal; inflexibilidade extrema que interfere de forma marcante em todas as áreas.</td></tr>
+      </tbody></table></div>
+    <p><strong>Nenhum questionário define o nível de suporte.</strong> Ele depende de observação clínica e do impacto real na vida. Como estes questionários são respondidos pela própria pessoa, eles se aplicam principalmente a adultos com linguagem e autonomia, perfil que costuma corresponder ao nível 1.</p>
+    <p class="muted">Muitas pessoas, especialmente mulheres, aprendem a camuflar características autistas (copiar expressões, ensaiar conversas). Isso pode baixar a pontuação nos questionários sem diminuir o esforço e o cansaço do dia a dia. Comente isso na avaliação, se for o seu caso.</p>
+    <p class="muted">A avaliação de autismo em adultos costuma envolver psiquiatra e/ou neuropsicólogo, entrevista sobre a infância (de preferência com alguém que conviveu com você) e instrumentos como ADOS-2 e ADI-R.</p>
+  </div></details>`;
+
+function resultASRS(r) {
+  const pres = r.inatt >= 6 && r.hyper >= 6 ? "combinado (desatenção e hiperatividade/impulsividade)" : r.inatt >= 6 ? "predominantemente desatento" : r.hyper >= 6 ? "predominantemente hiperativo/impulsivo" : null;
+  return card(modById("asrs"), r, `
+    ${meter(r.score, 6, 4, "Parte A (itens 1–6): respostas na faixa de risco")}
+    ${meter(r.partAScore, 24, 14, "Parte A: pontuação contínua (0–24)")}
+    <p>${r.positive
+      ? "Você marcou 4 ou mais itens da Parte A na faixa de risco. Pelo critério da OMS, os sintomas são altamente consistentes com TDAH em adultos e uma avaliação é recomendada."
+      : r.level === "warn"
+        ? "Você ficou perto do ponto de corte da Parte A. Pode valer uma conversa com um profissional, principalmente se as dificuldades vêm desde a infância e atrapalham estudo, trabalho ou relações."
+        : "Sua Parte A ficou abaixo do ponto de corte."}</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Domínio (18 itens)</th><th>Itens na faixa de risco</th></tr></thead>
+      <tbody>
+        <tr><td>Desatenção</td><td class="num">${r.inatt} de 9</td></tr>
+        <tr><td>Hiperatividade / impulsividade</td><td class="num">${r.hyper} de 9</td></tr>
+      </tbody></table></div>
+    ${pres && r.positive ? `<p>O padrão das respostas lembra a apresentação <strong>${pres}</strong>. Isso é só uma indicação; a apresentação é definida na avaliação clínica.</p>` : ""}
+    <p class="muted">Faixa de risco: “Às vezes” ou mais nos itens 1, 2, 3, 9, 12, 16 e 18; “Frequentemente” ou mais nos demais (formulário oficial da OMS).</p>`,
+  `<details><summary>Sobre o TDAH em adultos</summary><div>
+    <p>Pelo DSM-5-TR, o diagnóstico em adultos (17 anos ou mais) exige pelo menos <strong>5 sintomas</strong> de desatenção e/ou 5 de hiperatividade-impulsividade, por pelo menos 6 meses, com:</p>
+    <ul>
+      <li>vários sintomas presentes <strong>antes dos 12 anos</strong>;</li>
+      <li>sintomas em <strong>dois ou mais ambientes</strong> (casa, trabalho, estudo, relacionamentos);</li>
+      <li>prejuízo claro no funcionamento;</li>
+      <li>sintomas que não se explicam melhor por outra condição (ansiedade, depressão, privação de sono, uso de substâncias, problemas de tireoide etc.).</li>
+    </ul>
+    <p class="muted">Ansiedade e depressão também prejudicam a concentração. Se esses questionários também deram altos, conte isso ao profissional. TDAH e autismo aparecem juntos com frequência, e um pode elevar a pontuação do outro.</p>
+  </div></details>`);
+}
+
+function resultGAD(r) {
+  return card(modById("gad7"), r, `
+    ${meter(r.score, 21, 10, "Pontuação GAD-7")}
+    <p>Sintomas de ansiedade em grau <strong>${r.band}</strong> nas últimas 2 semanas. ${r.positive
+      ? "Pontuações de 10 ou mais indicam provável transtorno de ansiedade e merecem avaliação."
+      : r.score >= 5 ? "Vale observar como isso evolui; se persistir ou piorar, procure ajuda." : ""}</p>
+    <p class="muted">Faixas: 0–4 mínima · 5–9 leve · 10–14 moderada · 15–21 grave.</p>`,
+  `<details><summary>Sobre os transtornos de ansiedade</summary><div>
+    <p>O Transtorno de Ansiedade Generalizada (TAG) envolve preocupação excessiva e difícil de controlar, na maioria dos dias, por pelo menos 6 meses, com sintomas como inquietação, cansaço fácil, dificuldade de concentração, irritabilidade, tensão muscular e problemas de sono.</p>
+    <p>O GAD-7 também detecta razoavelmente bem transtorno de pânico, ansiedade social e estresse pós-traumático, mas não diferencia um do outro. Isso é feito na avaliação.</p>
+  </div></details>`);
+}
+
+function resultPHQ(r) {
+  const impactTxt = ["nenhuma", "alguma", "muita", "extrema"][r.impact];
+  return card(modById("phq9"), r, `
+    ${r.safety ? CRISIS : ""}
+    ${meter(r.score, 27, 10, "Pontuação PHQ-9")}
+    <p>Sintomas depressivos em grau <strong>${r.band}</strong> nas últimas 2 semanas. ${r.positive
+      ? "O ponto de corte internacional é 10; no estudo de validação brasileiro (Pelotas, RS), o melhor ponto de corte foi 9. Sua pontuação merece avaliação profissional."
+      : r.score === 9 ? "Sua pontuação está no ponto de corte do estudo brasileiro (9). Vale conversar com um profissional." : r.score >= 5 ? "Fique atento(a); se os sintomas persistirem por mais de 2 semanas ou piorarem, procure ajuda." : ""}</p>
+    ${r.algorithm ? `<p>Suas respostas também preenchem o padrão de sintomas de um episódio depressivo maior pelo algoritmo do PHQ-9 (5 ou mais sintomas na maior parte dos dias, incluindo humor deprimido ou perda de interesse).</p>` : ""}
+    ${r.safety ? `<p><strong>Você indicou pensamentos de se ferir ou de que seria melhor estar morto(a).</strong> Isso merece atenção hoje, independentemente da pontuação total. Converse com alguém de confiança e com um profissional. O CVV atende pelo 188, a qualquer hora.</p>` : ""}
+    <p class="muted">Dificuldade relatada no dia a dia: ${impactTxt}. Faixas: 0–4 mínima · 5–9 leve · 10–14 moderada · 15–19 moderadamente grave · 20–27 grave.</p>`,
+  `<details><summary>Sobre a depressão</summary><div>
+    <p>Um episódio depressivo maior, pelo DSM-5-TR, envolve 5 ou mais dos 9 sintomas do PHQ-9 por pelo menos 2 semanas, quase todos os dias, com humor deprimido ou perda de interesse/prazer entre eles, e com prejuízo na vida.</p>
+    <p class="muted">Antes do diagnóstico, o profissional costuma descartar causas físicas (tireoide, anemia, vitamina B12, efeitos de remédios) e investigar se já houve períodos de euforia ou energia excessiva, porque isso muda o tratamento.</p>
+  </div></details>`);
+}
+
+function resultMDQ(r, rPHQ) {
+  return card(modById("mdq"), r, `
+    ${meter(r.score, 13, 7, "Sintomas marcados “Sim”")}
+    <p>${r.positive
+      ? "Rastreio positivo: 7 ou mais sintomas, ocorrendo no mesmo período e causando problema moderado ou sério. Isso sugere possíveis episódios de mania ou hipomania e merece avaliação psiquiátrica."
+      : r.score >= 7
+        ? `Você marcou 7 ou mais sintomas, mas ${!r.cluster ? "eles não aconteceram no mesmo período" : "o impacto relatado foi leve ou nenhum"}, então o rastreio não fecha os 3 critérios. Ainda assim, vale mencionar esses períodos a um profissional.`
+        : r.level === "warn"
+          ? "Abaixo do ponto de corte, mas com vários sintomas no mesmo período. O MDQ deixa passar parte dos casos de bipolaridade tipo II (hipomania), então, se você reconhece esses períodos, conte isso a um profissional."
+          : "Rastreio negativo para períodos de mania ou hipomania."}</p>
+    ${r.family ? `<p>Você informou ter um parente de sangue com transtorno bipolar. O histórico familiar aumenta o risco e é uma informação importante para levar à consulta.</p>` : ""}
+    ${(rPHQ && rPHQ.positive && (r.positive || r.level === "warn")) ? `<p><strong>Depressão com sinais de euforia no passado:</strong> leve essa combinação ao profissional antes de iniciar qualquer tratamento, porque ela muda a escolha dos medicamentos.</p>` : ""}
+    <p class="muted">Critério: 7+ “Sim” nos 13 sintomas, “Sim” na pergunta do mesmo período e problema moderado ou sério. Na validação brasileira, o melhor ponto de corte foi 8 sintomas.</p>`,
+  `<details><summary>Sobre o transtorno bipolar</summary><div>
+    <ul>
+      <li><strong>Tipo I:</strong> pelo menos um episódio de mania, com humor eufórico ou irritável e energia aumentada por 1 semana ou mais (ou qualquer duração, se houve internação), com prejuízo marcante.</li>
+      <li><strong>Tipo II:</strong> episódios de hipomania (versão mais leve, de pelo menos 4 dias) e pelo menos um episódio depressivo maior.</li>
+      <li><strong>Ciclotimia:</strong> oscilações de humor por 2 anos ou mais, sem fechar critérios de episódios completos.</li>
+    </ul>
+    <p class="muted">Irritabilidade, impulsividade e pensamento acelerado também aparecem no TDAH, e mudanças rápidas de humor no mesmo dia podem ter outras causas. Por isso, o diagnóstico diferencial é feito na avaliação.</p>
+  </div></details>`);
+}
+
+function buildSummaryText() {
+  const lines = ["Rastreio Neuro e Humor: resumo (não é diagnóstico)", ""];
+  MODULES.forEach(m => {
+    if (!isDone(m.id)) { lines.push(`${m.short}: não respondido`); return; }
+    const r = scoreModule(m.id, state.answers[m.id]);
+    let extra = "";
+    if (m.id === "asrs") extra = ` (Parte A contínua ${r.partAScore}/24; desatenção ${r.inatt}/9; hiperatividade ${r.hyper}/9)`;
+    if (m.id === "gad7" || m.id === "phq9") extra = ` (${r.band})`;
+    if (m.id === "phq9" && r.safety) extra += "; item 9 positivo";
+    if (m.id === "mdq") extra = ` (mesmo período: ${r.cluster ? "sim" : "não"}; impacto: ${["nenhum", "leve", "moderado", "sério"][r.impactIdx]}; histórico familiar: ${r.family ? "sim" : "não/não sei"})`;
+    lines.push(`${m.short}: ${r.score}/${r.max}, corte ${r.cut}, ${levelText(r).toLowerCase()}${extra}`);
+  });
+  lines.push("", "Instrumentos: AQ-10, RAADS-14, ASRS v1.1, GAD-7, PHQ-9, MDQ.");
+  return lines.join("\n");
+}
+
+function renderResults() {
+  const R = {};
+  MODULES.forEach(m => { if (isDone(m.id)) R[m.id] = scoreModule(m.id, state.answers[m.id]); });
+  const any = Object.keys(R).length;
+  const flagged = MODULES.filter(m => R[m.id] && R[m.id].positive).map(m => m.short);
+  app.innerHTML = `
+    <header class="top">
+      <span class="eyebrow">Resultados · ${any} de ${MODULES.length} questionários</span>
+      <h1>Seus resultados</h1>
+      <p class="lede">${!any ? "Você ainda não completou nenhum questionário." : flagged.length
+        ? `Acima do ponto de corte: <strong>${flagged.join(", ")}</strong>. Isso indica que vale procurar uma avaliação profissional para essas áreas. Não é um diagnóstico.`
+        : "Nenhum questionário ficou acima do ponto de corte. Se você ainda sente que algo não vai bem, isso é motivo suficiente para procurar ajuda."}</p>
+      <div class="row"><button class="btn ghost small" id="home">Voltar ao início</button></div>
+    </header>
+    <div class="stack-lg">
+      ${R.phq9 && R.phq9.safety ? CRISIS : ""}
+      ${(R.aq10 || R.raads14) ? `<section class="stack"><h2>Autismo</h2>${autismSummary(R.aq10, R.raads14)}${R.aq10 ? resultAQ(R.aq10) : ""}${R.raads14 ? resultRAADS(R.raads14) : ""}${AUTISM_INFO}</section>` : ""}
+      ${R.asrs ? `<section class="stack"><h2>TDAH</h2>${resultASRS(R.asrs)}</section>` : ""}
+      ${R.gad7 ? `<section class="stack"><h2>Ansiedade</h2>${resultGAD(R.gad7)}</section>` : ""}
+      ${R.phq9 ? `<section class="stack"><h2>Depressão</h2>${resultPHQ(R.phq9)}</section>` : ""}
+      ${R.mdq ? `<section class="stack"><h2>Bipolaridade</h2>${resultMDQ(R.mdq, R.phq9)}</section>` : ""}
+      ${any ? `
+      <section class="block">
+        <h2>Como interpretar</h2>
+        <ul>
+          <li><strong>Sintomas se sobrepõem.</strong> Ansiedade e depressão pioram a atenção; TDAH eleva questionários de autismo; autismo e TDAH aparecem juntos em boa parte dos casos. Por isso, um resultado alto pode refletir outra condição.</li>
+          <li><strong>Momento de vida importa.</strong> Fases de estresse, luto, falta de sono ou uso de álcool e outras substâncias alteram as respostas. GAD-7 e PHQ-9 falam só das últimas 2 semanas.</li>
+          <li><strong>Pontos de corte equilibram acertos e erros.</strong> Mesmo os melhores rastreios deixam passar alguns casos e apontam pessoas que não têm a condição.</li>
+        </ul>
+        <h2>Onde procurar avaliação</h2>
+        <ul>
+          <li><strong>Pelo SUS:</strong> comece pela Unidade Básica de Saúde (UBS/posto). O médico de família pode tratar casos leves e encaminhar para psiquiatria, psicologia ou CAPS (Centro de Atenção Psicossocial).</li>
+          <li><strong>Particular ou convênio:</strong> psiquiatra para diagnóstico e tratamento; psicólogo para psicoterapia; neuropsicólogo para avaliação de autismo e TDAH.</li>
+          <li><strong>Leve este resumo</strong> à consulta. Ele ajuda a organizar a conversa, mas o profissional fará as próprias perguntas.</li>
+        </ul>
+        <label for="summaryText" class="eyebrow">Resumo para copiar</label>
+        <textarea id="summaryText" readonly>${esc(buildSummaryText())}</textarea>
+        <div class="row">
+          <button class="btn small" id="copy">Copiar resumo</button>
+          <span class="muted" id="copyMsg" aria-live="polite"></span>
+        </div>
+        <div class="row">
+          <button class="btn ghost small" id="reset">Apagar todas as respostas</button>
+          <span id="resetConfirm" hidden><button class="btn small" id="resetYes">Confirmar: apagar</button></span>
+        </div>
+      </section>` : ""}
+      ${renderSources()}
+    </div>`;
+  app.querySelector("#home").onclick = () => go("home");
+  const copy = app.querySelector("#copy");
+  if (copy) copy.onclick = () => {
+    const ta = app.querySelector("#summaryText"), msg = app.querySelector("#copyMsg");
+    const fallback = () => { ta.focus(); ta.select(); msg.textContent = "Texto selecionado. Use Ctrl+C (ou Copiar) para copiar."; };
+    try { navigator.clipboard.writeText(ta.value).then(() => msg.textContent = "Resumo copiado.", fallback); } catch (e) { fallback(); }
+  };
+  const reset = app.querySelector("#reset");
+  if (reset) {
+    reset.onclick = () => { app.querySelector("#resetConfirm").hidden = false; };
+    app.querySelector("#resetYes").onclick = () => { state.answers = {}; save(); go("home"); };
+  }
+}
+
+function renderSources() {
+  return `<section class="block sources">
+    <h2>Fontes científicas</h2>
+    <p class="muted">Os questionários são instrumentos publicados e de uso livre em contexto clínico e educacional. As traduções foram adaptadas para o português do Brasil a partir das versões originais; quando existe validação brasileira, ela está indicada.</p>
+    <ol>
+      <li>Allison C, Auyeung B, Baron-Cohen S. Toward brief “red flags” for autism screening: the Short Autism Spectrum Quotient and the Short Quantitative Checklist in 1,000 cases and 3,000 controls. <em>J Am Acad Child Adolesc Psychiatry</em>. 2012;51(2):202–212. (AQ-10)</li>
+      <li>NICE. <a href="https://www.nice.org.uk/guidance/cg142" target="_blank" rel="noopener">Autism spectrum disorder in adults: diagnosis and management (CG142)</a>. Atualizado em 2021: avaliação completa a partir de 6 pontos no AQ-10.</li>
+      <li>Universidade de Bath. <a href="https://www.bath.ac.uk/announcements/psychologists-report-an-error-in-the-nice-guidelines-for-autism-lancet-psychiatry-study/" target="_blank" rel="noopener">Psychologists report an error in the NICE guidelines for autism</a> (Lancet Psychiatry), sobre o ponto de corte do AQ-10.</li>
+      <li>Eriksson JM, Andersen LMJ, Bejerot S. RAADS-14 Screen: validity of a screening tool for autism spectrum disorder in an adult psychiatric population. <em>Molecular Autism</em>. 2013;4:49. <a href="https://doi.org/10.1186/2040-2392-4-49" target="_blank" rel="noopener">doi:10.1186/2040-2392-4-49</a></li>
+      <li>Kessler RC, Adler L, Ames M et al. The World Health Organization Adult ADHD Self-Report Scale (ASRS). <em>Psychol Med</em>. 2005;35(2):245–256. <a href="https://www.hcp.med.harvard.edu/ncs/asrs.php" target="_blank" rel="noopener">Página oficial (Harvard/OMS)</a>.</li>
+      <li>Mattos P, Segenreich D, Saboya E et al. Adaptação transcultural para o português da escala Adult Self-Report Scale para avaliação do TDAH em adultos. <em>Rev Psiquiatr Clín</em>. 2006;33(4):188–194.</li>
+      <li>Spitzer RL, Kroenke K, Williams JBW, Löwe B. A brief measure for assessing generalized anxiety disorder: the GAD-7. <em>Arch Intern Med</em>. 2006;166(10):1092–1097.</li>
+      <li>Sousa TV, Viveiros V, Chai MV et al. <a href="https://hqlo.biomedcentral.com/track/pdf/10.1186/s12955-015-0244-2" target="_blank" rel="noopener">Reliability and validity of the Portuguese version of the GAD-7</a>. <em>Health Qual Life Outcomes</em>. 2015;13:50.</li>
+      <li>Kroenke K, Spitzer RL, Williams JBW. The PHQ-9: validity of a brief depression severity measure. <em>J Gen Intern Med</em>. 2001;16(9):606–613.</li>
+      <li>Santos IS, Tavares BF, Munhoz TN et al. <a href="https://scielosp.org/pdf/csp/2013.v29n8/1533-1543/pt" target="_blank" rel="noopener">Sensibilidade e especificidade do Patient Health Questionnaire-9 (PHQ-9) entre adultos da população geral</a>. <em>Cad Saúde Pública</em>. 2013;29(8):1533–1543.</li>
+      <li>Hirschfeld RMA, Williams JBW, Spitzer RL et al. Development and validation of a screening instrument for bipolar spectrum disorder: the Mood Disorder Questionnaire. <em>Am J Psychiatry</em>. 2000;157(11):1873–1875.</li>
+      <li>Castelo MS, Carvalho ER, Gerhard ES et al. <a href="https://www.scielo.br/j/rbp/a/JBbkjB85qbQ9HpwwwT7kfYz/abstract/?lang=en" target="_blank" rel="noopener">Validity of the Mood Disorder Questionnaire in a Brazilian psychiatric population</a>. <em>Rev Bras Psiquiatr</em>. 2010;32(4):424–428.</li>
+      <li>American Psychiatric Association. <em>Manual Diagnóstico e Estatístico de Transtornos Mentais, 5ª ed., texto revisado (DSM-5-TR)</em>. 2022/2023.</li>
+      <li><a href="https://cvv.org.br" target="_blank" rel="noopener">Centro de Valorização da Vida (CVV)</a>: apoio emocional e prevenção do suicídio, telefone 188.</li>
+    </ol>
+  </section>`;
+}
+
+function render() {
+  if (state.view === "quiz") renderQuiz();
+  else if (state.view === "results") renderResults();
+  else renderHome();
+}
+
+window.__rastreio = { MODULES, scoreModule };
+render();
+</script>
