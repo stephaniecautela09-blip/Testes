@@ -1,0 +1,854 @@
+<title>Avaliação de Traços Autistas</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Avaliação detalhada de traços autistas em adultos: AQ-50, RAADS-14, critérios do DSM-5-TR, camuflagem, necessidade de suporte e diagnóstico diferencial. Não é diagnóstico.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: coluna de leitura (~46rem); etapas em lista; questionário com uma pergunta por vez; resultado em blocos com barras de escala e grade de critérios. */
+:root {
+  --bg: #f2f4f1;
+  --surface: #ffffff;
+  --ink: #1d2a2b;
+  --muted: #5b6a69;
+  --line: #d6ddd9;
+  --accent: #1f6a66;
+  --accent-ink: #ffffff;
+  --accent-soft: #dcebe8;
+  --ok: #2f7a4b;
+  --ok-soft: #e1f0e5;
+  --warn: #9a6400;
+  --warn-soft: #f8ecd2;
+  --alert: #b23a2c;
+  --alert-soft: #f8e0db;
+  --font-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Atkinson Hyperlegible", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --r: 10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #131a1a; --surface: #1b2423; --ink: #e4ecea; --muted: #9db0ad; --line: #2e3b3a;
+    --accent: #6cc3bb; --accent-ink: #0f1c1b; --accent-soft: #1f3533;
+    --ok: #7fcf9a; --ok-soft: #1c3226; --warn: #e8b660; --warn-soft: #3a2e17;
+    --alert: #f08f80; --alert-soft: #3d221e; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #131a1a; --surface: #1b2423; --ink: #e4ecea; --muted: #9db0ad; --line: #2e3b3a;
+  --accent: #6cc3bb; --accent-ink: #0f1c1b; --accent-soft: #1f3533;
+  --ok: #7fcf9a; --ok-soft: #1c3226; --warn: #e8b660; --warn-soft: #3a2e17;
+  --alert: #f08f80; --alert-soft: #3d221e; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink);
+  font-family: var(--font-body); font-size: 1.0625rem; line-height: 1.6;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0 4rem;
+  margin: 0;
+}
+.wrap { max-width: 46rem; margin: 0 auto; }
+h1, h2, h3 { font-family: var(--font-display); line-height: 1.15; text-wrap: balance; margin: 0; }
+h1 { font-size: clamp(2rem, 6vw, 2.9rem); font-weight: 700; letter-spacing: -0.01em; }
+h2 { font-size: 1.6rem; font-weight: 700; }
+h3 { font-size: 1.2rem; font-weight: 700; }
+p { margin: 0; }
+a { color: var(--accent); }
+.eyebrow { font-family: var(--font-data); font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.muted { color: var(--muted); }
+.small { font-size: 0.92rem; }
+.stack { display: flex; flex-direction: column; gap: 1rem; }
+.stack-lg { display: flex; flex-direction: column; gap: 2rem; }
+button { font: inherit; cursor: pointer; }
+button:focus-visible, a:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+header.top { padding-block: 2.5rem 1.5rem; display: flex; flex-direction: column; gap: 0.9rem; }
+header.top .lede { font-size: 1.15rem; max-width: 38rem; }
+.notice { border: 1px solid var(--line); background: var(--surface); border-radius: var(--r); padding: 1rem 1.1rem; display: flex; flex-direction: column; gap: 0.5rem; }
+.notice.crisis { border-color: var(--alert); background: var(--alert-soft); }
+.notice.crisis strong { color: var(--alert); }
+.phone { font-family: var(--font-data); font-weight: 500; }
+
+.btn { border: 1px solid var(--accent); background: var(--accent); color: var(--accent-ink); padding: 0.7rem 1.2rem; border-radius: 999px; font-weight: 700; }
+.btn.ghost { background: transparent; color: var(--accent); }
+.btn.sm { padding: 0.4rem 0.9rem; font-size: 0.95rem; }
+.btn:disabled { opacity: 0.45; cursor: default; }
+.row { display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center; }
+
+.steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; border: 1px solid var(--line); border-radius: var(--r); background: var(--surface); }
+.steps li { display: grid; grid-template-columns: 2.2rem 1fr auto; gap: 0.75rem; align-items: center; padding: 0.9rem 1rem; border-top: 1px solid var(--line); }
+.steps li:first-child { border-top: 0; }
+.steps .n { font-family: var(--font-data); font-size: 0.9rem; color: var(--muted); }
+.steps .meta { font-family: var(--font-data); font-size: 0.8rem; color: var(--muted); }
+.steps .body { min-width: 0; display: flex; flex-direction: column; gap: 0.2rem; }
+.chip { display: inline-block; font-family: var(--font-data); font-size: 0.75rem; padding: 0.15rem 0.55rem; border-radius: 999px; background: var(--accent-soft); color: var(--accent); white-space: nowrap; }
+.chip.ok { background: var(--ok-soft); color: var(--ok); }
+.chip.warn { background: var(--warn-soft); color: var(--warn); }
+.chip.alert { background: var(--alert-soft); color: var(--alert); }
+.chip.none { background: var(--line); color: var(--muted); }
+
+.quiz { padding-block: 1.5rem; display: flex; flex-direction: column; gap: 1.25rem; }
+.progress { height: 6px; background: var(--line); border-radius: 999px; overflow: hidden; }
+.progress > span { display: block; height: 100%; background: var(--accent); transition: width .25s ease; }
+.instr { background: var(--accent-soft); border-radius: var(--r); padding: 0.8rem 1rem; font-size: 0.98rem; }
+.question { font-family: var(--font-display); font-size: clamp(1.3rem, 4vw, 1.65rem); font-weight: 500; line-height: 1.3; text-wrap: pretty; }
+.prefix { color: var(--muted); font-size: 1rem; font-family: var(--font-body); display: block; margin-bottom: 0.35rem; }
+.hint { color: var(--muted); font-size: 0.95rem; }
+.options { display: flex; flex-direction: column; gap: 0.55rem; }
+.opt { text-align: left; background: var(--surface); color: var(--ink); border: 1.5px solid var(--line); border-radius: var(--r); padding: 0.85rem 1rem; display: flex; gap: 0.85rem; align-items: center; }
+.opt:hover { border-color: var(--accent); }
+.opt[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); font-weight: 700; }
+.opt kbd { font-family: var(--font-data); font-size: 0.8rem; color: var(--muted); border: 1px solid var(--line); border-radius: 5px; padding: 0 0.4rem; min-width: 1.6rem; text-align: center; }
+.qnav { display: flex; justify-content: space-between; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
+.count { font-family: var(--font-data); font-size: 0.85rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+
+.verdict { border-radius: var(--r); padding: 1.3rem; display: flex; flex-direction: column; gap: 0.6rem; border: 1px solid var(--line); background: var(--surface); }
+.verdict.alert { border-left: 6px solid var(--alert); }
+.verdict.warn { border-left: 6px solid var(--warn); }
+.verdict.ok { border-left: 6px solid var(--ok); }
+.verdict .big { font-family: var(--font-display); font-size: clamp(1.5rem, 5vw, 2rem); font-weight: 700; line-height: 1.15; }
+.result { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 1.2rem; display: flex; flex-direction: column; gap: 0.9rem; min-width: 0; }
+.result-head { display: flex; justify-content: space-between; gap: 0.75rem; flex-wrap: wrap; align-items: baseline; }
+.meter { display: flex; flex-direction: column; gap: 0.3rem; }
+.meter .lbl { display: flex; justify-content: space-between; font-family: var(--font-data); font-size: 0.85rem; font-variant-numeric: tabular-nums; gap: 0.5rem; }
+.track { position: relative; height: 12px; background: var(--line); border-radius: 999px; margin-bottom: 1.3rem; }
+.track.thin { height: 8px; margin-bottom: 0.4rem; }
+.track .fill { position: absolute; inset: 0 auto 0 0; border-radius: 999px; background: var(--accent); }
+.track .cut { position: absolute; top: -4px; bottom: -4px; width: 2px; background: var(--ink); }
+.track .cut span { position: absolute; top: 18px; left: 50%; transform: translateX(-50%); font-family: var(--font-data); font-size: 0.7rem; color: var(--muted); white-space: nowrap; }
+.crit { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: 0.6rem; }
+.crit > div { border: 1px solid var(--line); border-radius: var(--r); padding: 0.7rem 0.8rem; display: flex; flex-direction: column; gap: 0.3rem; min-width: 0; }
+.crit .code { font-family: var(--font-data); font-size: 0.8rem; color: var(--muted); }
+.levels { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 0.8rem; }
+.lvl { border: 1px solid var(--line); border-radius: var(--r); padding: 1rem; display: flex; flex-direction: column; gap: 0.4rem; min-width: 0; }
+.lvl .num { font-family: var(--font-display); font-size: 2.4rem; font-weight: 700; line-height: 1; color: var(--accent); }
+.result ul, .stack ul { margin: 0; padding-left: 1.2rem; display: flex; flex-direction: column; gap: 0.35rem; }
+details { border-top: 1px solid var(--line); padding-top: 0.7rem; }
+summary { cursor: pointer; font-weight: 700; color: var(--accent); }
+details > div { padding-top: 0.6rem; display: flex; flex-direction: column; gap: 0.6rem; }
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; }
+.tablewrap { overflow-x: auto; }
+th, td { text-align: left; padding: 0.4rem 0.5rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-family: var(--font-data); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); font-weight: 500; }
+td.num { font-family: var(--font-data); font-variant-numeric: tabular-nums; white-space: nowrap; }
+section.block { display: flex; flex-direction: column; gap: 1rem; padding-top: 2rem; border-top: 1px solid var(--line); }
+.sources ol { padding-left: 1.3rem; margin: 0; display: flex; flex-direction: column; gap: 0.55rem; font-size: 0.93rem; }
+textarea#summaryText { width: 100%; min-height: 12rem; font-family: var(--font-data); font-size: 0.82rem; background: var(--surface); color: var(--ink); border: 1px solid var(--line); border-radius: var(--r); padding: 0.7rem; }
+@media (max-width: 30rem) { .steps li { grid-template-columns: 1.6rem 1fr; } .steps li .btn { grid-column: 2; justify-self: start; } }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="wrap" id="app"></div>
+
+<script>
+"use strict";
+
+/* ---------- Opções de resposta ---------- */
+const AGREE4 = ["Concordo totalmente", "Concordo um pouco", "Discordo um pouco", "Discordo totalmente"];
+const RAADS_OPTS = ["Verdadeiro agora e quando eu era jovem", "Verdadeiro só agora", "Verdadeiro só quando eu tinha menos de 16 anos", "Nunca foi verdadeiro"];
+const FREQ5 = ["Nunca", "Raramente", "Às vezes", "Frequentemente", "Sempre ou quase sempre"];
+const AGREE5 = ["Discordo totalmente", "Discordo", "Neutro", "Concordo", "Concordo totalmente"];
+const SUPPORT4 = [
+  "Faço sozinho(a), sem dificuldade importante",
+  "Faço sozinho(a), mas com muito esforço, ou preciso de ajuda de vez em quando",
+  "Preciso de ajuda frequente de outra pessoa",
+  "Não consigo, ou preciso de ajuda o tempo todo"
+];
+const YESNO3 = ["Sim", "Às vezes / em parte", "Não"];
+
+/* ---------- Etapas ---------- */
+// AQ-50: itens que pontuam ao CONCORDAR (os demais pontuam ao discordar). Baron-Cohen et al., 2001.
+const AQ_AGREE = new Set([2, 4, 5, 6, 7, 9, 12, 13, 16, 18, 19, 20, 21, 22, 23, 26, 33, 35, 39, 41, 42, 43, 45, 46]);
+const AQ_SUBSCALES = {
+  "Habilidade social": [1, 11, 13, 15, 22, 36, 44, 45, 47, 48],
+  "Alternância de atenção": [2, 4, 10, 16, 25, 32, 34, 37, 43, 46],
+  "Atenção a detalhes": [5, 6, 9, 12, 19, 23, 28, 29, 30, 49],
+  "Comunicação": [7, 17, 18, 26, 27, 31, 33, 35, 38, 39],
+  "Imaginação": [3, 8, 14, 20, 21, 24, 40, 41, 42, 50]
+};
+
+const SECTIONS = [
+  {
+    id: "contexto", short: "Sobre você", name: "Sobre você",
+    about: "Informações que mudam a interpretação dos resultados.",
+    instr: "Algumas perguntas rápidas de contexto. Elas não entram na pontuação, mas ajudam a interpretar o resultado.",
+    items: [
+      { key: "who", t: "Quem está respondendo?", options: ["Eu mesmo(a), sobre mim", "Um familiar ou cuidador, sobre outra pessoa"] },
+      { key: "age", t: "Qual a idade da pessoa avaliada?", options: ["Menos de 16 anos", "16 a 24 anos", "25 a 39 anos", "40 a 59 anos", "60 anos ou mais"] },
+      { key: "gender", t: "Qual o gênero da pessoa avaliada?", options: ["Mulher", "Homem", "Não binário / outro", "Prefiro não informar"] },
+      { key: "family", t: "Há alguém na família de sangue (pais, irmãos, filhos, tios, primos) com diagnóstico de autismo?", options: ["Sim", "Suspeita, mas sem diagnóstico", "Não", "Não sei"] },
+      { key: "prior", t: "A pessoa já recebeu algum destes diagnósticos?", options: ["TDAH", "Ansiedade ou depressão", "Mais de um dos anteriores", "Outro diagnóstico psiquiátrico", "Nenhum"] }
+    ]
+  },
+  {
+    id: "aq50", short: "AQ-50", name: "Quociente do Espectro Autista (AQ-50)",
+    about: "O questionário de autorrelato mais estudado do mundo para traços autistas em adultos. Validado no Brasil.",
+    instr: "Leia cada frase e marque o quanto você concorda ou discorda. Responda pensando em como você é na maior parte do tempo, não em como gostaria de ser.",
+    options: AGREE4,
+    items: [
+      "Prefiro fazer as coisas com outras pessoas a fazê-las sozinho(a).",
+      "Prefiro fazer as coisas sempre do mesmo jeito.",
+      "Quando tento imaginar algo, acho muito fácil formar uma imagem na mente.",
+      "Muitas vezes fico tão concentrado(a) em uma coisa que perco de vista todo o resto.",
+      "Frequentemente percebo pequenos sons que os outros não percebem.",
+      "Costumo reparar em placas de carro ou em sequências de informação parecidas.",
+      "Outras pessoas frequentemente me dizem que o que eu disse foi indelicado, mesmo quando eu acho que fui educado(a).",
+      "Quando leio uma história, consigo imaginar facilmente como são os personagens.",
+      "Datas me fascinam.",
+      "Em um grupo, consigo acompanhar facilmente a conversa de várias pessoas ao mesmo tempo.",
+      "Acho as situações sociais fáceis.",
+      "Costumo notar detalhes que os outros não notam.",
+      "Prefiro ir a uma biblioteca do que a uma festa.",
+      "Acho fácil inventar histórias.",
+      "Sinto-me mais atraído(a) por pessoas do que por coisas.",
+      "Costumo ter interesses muito fortes e fico chateado(a) se não posso me dedicar a eles.",
+      "Gosto de bate-papo social.",
+      "Quando eu falo, nem sempre é fácil para os outros conseguirem falar também.",
+      "Números me fascinam.",
+      "Quando leio uma história, acho difícil entender as intenções dos personagens.",
+      "Não gosto muito de ler ficção.",
+      "Acho difícil fazer novos amigos.",
+      "Percebo padrões nas coisas o tempo todo.",
+      "Prefiro ir ao teatro do que a um museu.",
+      "Não me incomoda se minha rotina diária é alterada.",
+      "Frequentemente percebo que não sei como manter uma conversa.",
+      "Acho fácil “ler nas entrelinhas” quando alguém está falando comigo.",
+      "Normalmente me concentro mais no todo do que nos pequenos detalhes.",
+      "Não sou muito bom(boa) em lembrar números de telefone.",
+      "Normalmente não noto pequenas mudanças em uma situação ou na aparência de uma pessoa.",
+      "Sei perceber quando alguém que está me ouvindo está ficando entediado.",
+      "Acho fácil fazer mais de uma coisa ao mesmo tempo.",
+      "Quando falo ao telefone, não tenho certeza de quando é a minha vez de falar.",
+      "Gosto de fazer as coisas de forma espontânea.",
+      "Frequentemente sou o(a) último(a) a entender a graça de uma piada.",
+      "Acho fácil saber o que alguém está pensando ou sentindo só de olhar para o rosto da pessoa.",
+      "Se acontece uma interrupção, consigo voltar rapidamente ao que eu estava fazendo.",
+      "Sou bom(boa) em bate-papo social.",
+      "As pessoas frequentemente me dizem que eu fico falando sem parar sobre o mesmo assunto.",
+      "Quando eu era criança, gostava de brincar de faz de conta com outras crianças.",
+      "Gosto de juntar informações sobre categorias de coisas (por exemplo: tipos de carro, de pássaro, de trem, de planta).",
+      "Acho difícil imaginar como seria ser outra pessoa.",
+      "Gosto de planejar com cuidado qualquer atividade de que eu participe.",
+      "Gosto de ocasiões sociais.",
+      "Acho difícil entender as intenções das pessoas.",
+      "Situações novas me deixam ansioso(a).",
+      "Gosto de conhecer pessoas novas.",
+      "Sou bom(boa) em diplomacia.",
+      "Não sou muito bom(boa) em lembrar a data de aniversário das pessoas.",
+      "Acho muito fácil brincar com crianças de jogos de faz de conta."
+    ].map(t => ({ t }))
+  },
+  {
+    id: "raads14", short: "RAADS-14", name: "RAADS-14 Screen",
+    about: "14 itens que comparam o presente com a infância. Muito sensível: identificou 97% dos autistas no estudo original.",
+    instr: "Para cada frase, escolha quando ela foi verdadeira para você: hoje, na infância/adolescência (antes dos 16 anos), nos dois períodos ou nunca.",
+    options: RAADS_OPTS,
+    items: [
+      { t: "É difícil para mim entender como as outras pessoas estão se sentindo quando estamos conversando." },
+      { t: "Algumas texturas comuns, que não incomodam os outros, me parecem muito desagradáveis quando tocam minha pele." },
+      { t: "É muito difícil para mim trabalhar e funcionar em grupo." },
+      { t: "É difícil descobrir o que as outras pessoas esperam de mim." },
+      { t: "Muitas vezes não sei como agir em situações sociais." },
+      { t: "Consigo bater papo e jogar conversa fora com as pessoas.", rev: true },
+      { t: "Quando fico sobrecarregado(a) pelos meus sentidos, preciso me isolar para desligá-los." },
+      { t: "Como fazer amigos e me socializar é um mistério para mim." },
+      { t: "Quando converso com alguém, tenho dificuldade de saber quando é a minha vez de falar ou de ouvir." },
+      { t: "Às vezes preciso tapar os ouvidos para bloquear barulhos que me incomodam muito (como aspirador de pó ou pessoas falando demais ou alto demais)." },
+      { t: "Pode ser muito difícil ler o rosto, as mãos e os movimentos do corpo de alguém quando estamos conversando." },
+      { t: "Eu me concentro nos detalhes, e não na ideia geral." },
+      { t: "Eu levo as coisas ao pé da letra e, por isso, muitas vezes não entendo o que as pessoas querem dizer." },
+      { t: "Fico extremamente incomodado(a) quando o meu jeito de fazer as coisas é mudado de repente." }
+    ]
+  },
+  {
+    id: "dsm", short: "Critérios DSM-5-TR", name: "Critérios diagnósticos (DSM-5-TR)",
+    about: "Perguntas organizadas pelos 7 critérios oficiais do manual diagnóstico, mais o início na infância.",
+    instr: "Cada pergunta corresponde a um critério oficial do DSM-5-TR. Pense na sua vida como um todo, incluindo a infância. Se hoje você disfarça ou compensa algo com esforço, conte como presente.",
+    options: FREQ5,
+    items: [
+      { c: "A1", t: "Conversas de ida e volta são difíceis para mim: não sei bem como começar, manter ou encerrar." },
+      { c: "A1", t: "Tenho dificuldade em compartilhar interesses, emoções ou experiências do jeito que os outros esperam." },
+      { c: "A1", t: "Já me disseram que falo muito sobre meus assuntos sem perceber se o outro está interessado." },
+      { c: "A2", t: "Manter contato visual é desconfortável ou exige esforço consciente." },
+      { c: "A2", t: "Tenho dificuldade para entender expressões faciais, tom de voz ou gestos das pessoas." },
+      { c: "A2", t: "Já me disseram que minha expressão ou meu tom de voz não combinam com o que estou sentindo (por exemplo: pareço bravo(a), sério(a) ou sem emoção)." },
+      { c: "A3", t: "Tenho dificuldade para fazer ou manter amizades." },
+      { c: "A3", t: "Ajustar meu comportamento a contextos sociais diferentes (trabalho, festa, família) é difícil para mim." },
+      { c: "A3", t: "Na infância, brincadeiras de faz de conta ou em grupo com outras crianças eram difíceis ou pouco interessantes para mim." },
+      { c: "B1", t: "Faço movimentos repetitivos (balançar o corpo, sacudir as mãos, estalar os dedos, mexer em objetos) para me acalmar ou quando estou empolgado(a)." },
+      { c: "B1", t: "Repito palavras, frases ou sons (de filmes, de outras pessoas ou meus), em voz alta ou mentalmente." },
+      { c: "B1", t: "Alinho, organizo ou manipulo objetos de forma repetitiva." },
+      { c: "B2", t: "Mudanças inesperadas de planos me deixam muito angustiado(a)." },
+      { c: "B2", t: "Preciso fazer certas coisas sempre do mesmo jeito (mesmo caminho, mesma comida, mesma ordem)." },
+      { c: "B2", t: "Tenho muita dificuldade com transições, como parar uma atividade para começar outra." },
+      { c: "B3", t: "Tenho interesses muito intensos, sobre os quais consigo pensar, ler ou falar por horas." },
+      { c: "B3", t: "Meus interesses são incomuns, pela intensidade ou pelo tema, para pessoas da minha idade." },
+      { c: "B3", t: "Fico muito incomodado(a) quando não posso me dedicar ao meu interesse." },
+      { c: "B4", t: "Sons, luzes, cheiros, texturas ou multidões me incomodam muito mais do que aos outros." },
+      { c: "B4", t: "Evito certas roupas, etiquetas, tecidos ou alimentos por causa da textura, do cheiro ou do sabor." },
+      { c: "B4", t: "Reajo pouco a dor, frio ou calor, ou busco estímulos sensoriais de forma intensa (pressão, cheirar ou tocar objetos, luzes, sons)." },
+      { c: "C", key: "onset", t: "Essas características (sociais e/ou de comportamento) já existiam na infância, mesmo que menos visíveis?",
+        options: ["Sim, com certeza", "Provavelmente sim", "Não sei", "Não, começaram na adolescência ou na vida adulta"] },
+      { c: "C", key: "noticed", t: "Na infância, pais, professores ou outras pessoas comentavam que você era diferente (tímido(a) demais, “no seu mundo”, muito sensível, rígido(a), com interesses incomuns)?",
+        options: ["Sim, com frequência", "Às vezes", "Não", "Não sei"] }
+    ]
+  },
+  {
+    id: "camuf", short: "Camuflagem", name: "Camuflagem social",
+    about: "Mede o esforço para esconder traços autistas. Camuflagem alta pode fazer os questionários subestimarem o autismo.",
+    instr: "Estas perguntas avaliam o quanto você se esforça para parecer “adequado(a)” socialmente. Marque o quanto concorda com cada frase.",
+    options: AGREE5,
+    items: [
+      "Antes de conversas ou encontros, ensaio mentalmente o que vou dizer.",
+      "Copio jeitos, frases, expressões ou gestos de outras pessoas para parecer adequado(a).",
+      "Aprendi regras sociais estudando (observando pessoas, lendo, vendo séries) e não de forma natural.",
+      "Forço o contato visual, mesmo sendo desconfortável, para parecer interessado(a).",
+      "Escondo movimentos repetitivos, interesses ou reações sensoriais para não parecer estranho(a).",
+      "Depois de interações sociais, fico exausto(a) e preciso de bastante tempo sozinho(a) para me recuperar.",
+      "Sinto que estou interpretando um papel quando estou com outras pessoas.",
+      "As pessoas se surpreendem quando conto minhas dificuldades, porque por fora pareço bem."
+    ].map(t => ({ t }))
+  },
+  {
+    id: "suporte", short: "Necessidade de suporte", name: "Necessidade de suporte no dia a dia",
+    about: "Base para o nível de suporte indicativo (1, 2 ou 3), separado para comunicação social e para comportamentos restritos.",
+    instr: "Pense em como a pessoa avaliada se sai hoje, na vida real, sem contar o esforço que ninguém vê como “ajuda”. Escolha a opção mais próxima.",
+    prefix: "No dia a dia, como é…",
+    options: SUPPORT4,
+    items: [
+      { d: "S", t: "…iniciar e manter conversas com pessoas que não conhece bem?" },
+      { d: "S", t: "…comunicar necessidades básicas (dor, fome, desconforto, que precisa de algo)?" },
+      { d: "S", t: "…lidar com as interações do trabalho ou do estudo (colegas, chefes, professores, reuniões)?" },
+      { d: "S", t: "…fazer e manter amizades ou relacionamentos?" },
+      { d: "S", t: "…resolver situações práticas que exigem falar com pessoas (marcar consulta por telefone, atendimento em banco ou loja)?" },
+      { d: "S", key: "speech", noPrefix: true, t: "Como é a fala da pessoa avaliada no dia a dia?",
+        options: ["Fala fluente, com frases completas", "Fala em frases simples, ou com dificuldade importante para se expressar", "Usa poucas palavras ou se comunica principalmente de outras formas (gestos, figuras, escrita, aplicativos)"] },
+      { d: "R", t: "…lidar com mudanças inesperadas de rotina ou de planos?" },
+      { d: "R", t: "…trocar de uma atividade para outra quando é preciso?" },
+      { d: "R", t: "…lidar com ambientes sensoriais comuns (mercado, transporte, escola, escritório, festas)?" },
+      { d: "R", t: "…se recuperar de crises (meltdown, com choro, raiva ou descontrole; ou shutdown, com travamento e silêncio)?" },
+      { d: "R", t: "…manter uma vida independente (higiene, alimentação, organização da casa, dinheiro, compromissos)?" },
+      { d: "R", key: "crises", noPrefix: true, t: "Com que frequência acontecem crises de sobrecarga (meltdown ou shutdown)?",
+        options: ["Nunca ou quase nunca", "Algumas vezes por ano", "Algumas vezes por mês", "Toda semana ou mais"] }
+    ]
+  },
+  {
+    id: "dif", short: "Diferenciais", name: "Diagnóstico diferencial e condições associadas",
+    about: "Condições que imitam ou acompanham o autismo. Ajuda a interpretar resultados altos.",
+    instr: "Algumas condições têm sinais parecidos com os do autismo ou aparecem junto com ele. Responda com sinceridade; não existe resposta certa.",
+    options: YESNO3,
+    items: [
+      { key: "tdah", t: "Desde a infância, tenho muita dificuldade com atenção, organização, procrastinação e impulsividade, mesmo em coisas importantes para mim." },
+      { key: "socanx", t: "Minha dificuldade social vem principalmente do medo de ser julgado(a). Com pessoas próximas e em ambiente seguro, interajo com facilidade e entendo os outros de forma intuitiva." },
+      { key: "trauma", t: "Minhas dificuldades sociais começaram depois de experiências traumáticas (abuso, negligência, bullying grave, perdas importantes)." },
+      { key: "toc", t: "Tenho rituais ou pensamentos repetitivos que me causam angústia e que faço para aliviar medo ou ansiedade, e não por prazer ou interesse." },
+      { key: "dep", t: "Meu isolamento começou junto com tristeza, desânimo ou perda de prazer; antes eu gostava de socializar." },
+      { key: "intel", t: "Tenho (ou a pessoa avaliada tem) dificuldades importantes de aprendizagem ou deficiência intelectual." }
+    ]
+  }
+];
+
+/* ---------- Pontuação ---------- */
+const num = v => typeof v === "number";
+const sectionById = id => SECTIONS.find(s => s.id === id);
+const isComplete = (id, a) => Array.isArray(a) && sectionById(id).items.every((_, i) => num(a[i]));
+const mean = arr => arr.length ? arr.reduce((x, y) => x + y, 0) / arr.length : 0;
+
+function scoreAQ(a) {
+  const pts = a.map((v, i) => {
+    const agree = v <= 1;
+    return AQ_AGREE.has(i + 1) ? (agree ? 1 : 0) : (agree ? 0 : 1);
+  });
+  const total = pts.reduce((x, y) => x + y, 0);
+  const subs = Object.fromEntries(Object.entries(AQ_SUBSCALES).map(([k, items]) => [k, items.reduce((s, n) => s + pts[n - 1], 0)]));
+  const level = total >= 32 ? "alert" : total >= 26 ? "warn" : "ok";
+  return { total, subs, level };
+}
+
+function scoreRAADS(a) {
+  let total = 0, now = 0, child = 0;
+  sectionById("raads14").items.forEach((it, i) => {
+    const v = 3 - a[i];
+    total += it.rev ? 3 - v : v;
+    // Padrão temporal: respostas "agora e na infância" (0) ou "só antes dos 16" (2) indicam presença na infância
+    const ans = it.rev ? null : a[i];
+    if (ans === 0 || ans === 2) child++;
+    if (ans === 0 || ans === 1) now++;
+  });
+  return { total, now, child, level: total >= 14 ? "alert" : total >= 10 ? "warn" : "ok" };
+}
+
+const CRITERIA = {
+  A1: "Reciprocidade socioemocional",
+  A2: "Comunicação não verbal",
+  A3: "Relacionamentos",
+  B1: "Movimentos, fala ou uso de objetos repetitivos",
+  B2: "Rotinas e inflexibilidade",
+  B3: "Interesses restritos e intensos",
+  B4: "Diferenças sensoriais"
+};
+
+function scoreDSM(a) {
+  const items = sectionById("dsm").items;
+  const crit = {};
+  Object.keys(CRITERIA).forEach(c => {
+    const vals = items.map((it, i) => it.c === c ? a[i] : null).filter(num);
+    const m = mean(vals);
+    const max = Math.max(...vals);
+    // presente: média em "Frequentemente" ou mais, ou ao menos uma resposta "Sempre" com média em "Às vezes" ou mais
+    const status = (m >= 2.67 || (max === 4 && m >= 2)) ? "present" : m >= 1.67 ? "partial" : "absent";
+    crit[c] = { mean: m, status };
+  });
+  const onsetIdx = items.findIndex(it => it.key === "onset");
+  const noticedIdx = items.findIndex(it => it.key === "noticed");
+  const A = ["A1", "A2", "A3"], B = ["B1", "B2", "B3", "B4"];
+  const aPresent = A.filter(c => crit[c].status === "present").length;
+  const aPartial = A.filter(c => crit[c].status !== "absent").length;
+  const bPresent = B.filter(c => crit[c].status === "present").length;
+  const bPartial = B.filter(c => crit[c].status !== "absent").length;
+  const onset = a[onsetIdx];           // 0 certeza, 1 provável, 2 não sei, 3 não
+  const noticed = a[noticedIdx];
+  const childhood = onset <= 1;
+  const full = aPresent === 3 && bPresent >= 2;
+  const near = !full && aPartial === 3 && bPartial >= 2;
+  return { crit, aPresent, bPresent, aPartial, bPartial, onset, noticed, childhood, full, near,
+    level: full && childhood ? "alert" : (full || near) ? "warn" : "ok" };
+}
+
+function scoreCamuf(a) {
+  const total = a.reduce((x, y) => x + y, 0); // 0–32
+  return { total, max: 32, level: total >= 22 ? "alert" : total >= 14 ? "warn" : "ok" };
+}
+
+// Nível indicativo de suporte (DSM-5-TR): 0 = sem necessidade relevante, 1, 2, 3
+function toLevel(m) { return m >= 2.3 ? 3 : m >= 1.5 ? 2 : m >= 0.5 ? 1 : 0; }
+
+function scoreSupport(a) {
+  const items = sectionById("suporte").items;
+  const sVals = [], rVals = [];
+  let speech = 0, crises = 0;
+  items.forEach((it, i) => {
+    if (it.key === "speech") speech = a[i];
+    else if (it.key === "crises") crises = a[i];
+    else (it.d === "S" ? sVals : rVals).push(a[i]);
+  });
+  const sMean = mean(sVals), rMean = mean(rVals);
+  // A fala entra pelos exemplos do DSM-5-TR: frases simples ~ nível 2; poucas palavras ~ nível 3
+  const speechLevel = speech === 2 ? 3 : speech === 1 ? 2 : 0;
+  const social = Math.max(toLevel(sMean), speechLevel);
+  // Crises semanais indicam, no mínimo, nível 1 em comportamentos restritos
+  const restricted = crises >= 3 ? Math.max(1, toLevel(rMean)) : toLevel(rMean);
+  return { sMean, rMean, speech, crises, social, restricted };
+}
+
+function scoreDif(a) {
+  const items = sectionById("dif").items;
+  const out = {};
+  items.forEach((it, i) => { out[it.key] = a[i]; }); // 0 sim, 1 em parte, 2 não
+  return out;
+}
+
+function contextOf(a) {
+  if (!Array.isArray(a)) return {};
+  const items = sectionById("contexto").items;
+  const o = {};
+  items.forEach((it, i) => { o[it.key] = a[i]; });
+  return o;
+}
+
+function overall(R) {
+  // Cada fonte soma pontos de evidência; o total máximo é 7.
+  let pts = 0;
+  const reasons = [];
+  if (R.aq50) {
+    if (R.aq50.total >= 32) { pts += 2; reasons.push(`AQ-50 em ${R.aq50.total}, acima do corte de pesquisa (32)`); }
+    else if (R.aq50.total >= 26) { pts += 1; reasons.push(`AQ-50 em ${R.aq50.total}, acima do corte clínico (26)`); }
+  }
+  if (R.raads14 && R.raads14.total >= 14) { pts += 1; reasons.push(`RAADS-14 em ${R.raads14.total}, acima do corte (14)`); }
+  if (R.dsm) {
+    if (R.dsm.full) { pts += 2; reasons.push("respostas compatíveis com os 3 critérios sociais (A) e ao menos 2 dos 4 comportamentais (B) do DSM-5-TR"); }
+    else if (R.dsm.near) { pts += 1; reasons.push("critérios do DSM-5-TR presentes de forma parcial"); }
+    if (R.dsm.childhood && (R.dsm.full || R.dsm.near)) { pts += 1; reasons.push("características presentes desde a infância"); }
+  }
+  if (R.camuf && R.camuf.total >= 22 && pts >= 2) { pts += 1; reasons.push("camuflagem social alta, que costuma reduzir as pontuações dos questionários"); }
+  const enough = R.aq50 && R.raads14 && R.dsm;
+  let cat;
+  if (pts >= 5 && (!R.dsm || R.dsm.childhood)) cat = { level: "alert", label: "Alta compatibilidade com autismo", text: "Vários instrumentos independentes apontam na mesma direção, e as características parecem presentes desde a infância. Esse é o perfil em que uma avaliação diagnóstica especializada é fortemente recomendada." };
+  else if (pts >= 3) cat = { level: "warn", label: "Compatibilidade moderada", text: "Há sinais consistentes em parte dos instrumentos. Isso pode indicar autismo com camuflagem, traços autistas sem diagnóstico completo, ou outra condição com sinais parecidos. Uma avaliação ajuda a esclarecer." };
+  else if (pts >= 1) cat = { level: "warn", label: "Sinais isolados", text: "Apareceram alguns sinais, mas não um padrão consistente entre os instrumentos. Traços autistas isolados são comuns na população geral." };
+  else cat = { level: "ok", label: "Baixa compatibilidade", text: "Os instrumentos ficaram abaixo dos pontos de corte. Se você ainda sente que se encaixa no espectro, especialmente se camufla muito, uma conversa com um especialista continua válida." };
+  return { pts, reasons, cat, enough };
+}
+
+/* ---------- Estado ---------- */
+const STORE_KEY = "avaliacao-autismo-v1";
+let state = { answers: {}, queue: [], view: "home", sec: null, idx: 0 };
+try { const raw = localStorage.getItem(STORE_KEY); if (raw) state.answers = JSON.parse(raw).answers || {}; } catch (e) {}
+function save() { try { localStorage.setItem(STORE_KEY, JSON.stringify({ answers: state.answers })); } catch (e) {} }
+
+const app = document.getElementById("app");
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const done = id => isComplete(id, state.answers[id]);
+const totalItems = SECTIONS.reduce((s, x) => s + x.items.length, 0);
+
+function computeAll() {
+  const R = {};
+  if (done("aq50")) R.aq50 = scoreAQ(state.answers.aq50);
+  if (done("raads14")) R.raads14 = scoreRAADS(state.answers.raads14);
+  if (done("dsm")) R.dsm = scoreDSM(state.answers.dsm);
+  if (done("camuf")) R.camuf = scoreCamuf(state.answers.camuf);
+  if (done("suporte")) R.suporte = scoreSupport(state.answers.suporte);
+  if (done("dif")) R.dif = scoreDif(state.answers.dif);
+  R.ctx = contextOf(state.answers.contexto);
+  return R;
+}
+
+/* ---------- Telas ---------- */
+function renderHome() {
+  const doneCount = SECTIONS.filter(s => done(s.id)).length;
+  app.innerHTML = `
+    <header class="top">
+      <span class="eyebrow">Adultos e adolescentes a partir de 16 anos · ${totalItems} perguntas · 25 a 35 minutos</span>
+      <h1>Avaliação de Traços Autistas</h1>
+      <p class="lede">Uma avaliação em 7 etapas que combina os questionários científicos mais usados para autismo em adultos com os critérios oficiais do DSM-5-TR, a camuflagem social, a necessidade de suporte no dia a dia e as condições que podem ser confundidas com autismo.</p>
+    </header>
+    <div class="stack-lg">
+      <div class="notice">
+        <p><strong>Isto não é um diagnóstico.</strong> Nenhum teste online diagnostica autismo. O diagnóstico é clínico: um psiquiatra, neurologista ou neuropsicólogo faz entrevista detalhada, investiga a infância (de preferência com alguém que conviveu com você) e pode usar instrumentos como ADOS-2 e ADI-R. Esta avaliação organiza os sinais para você levar a essa consulta.</p>
+        <p class="muted">As respostas ficam só neste navegador. Você pode parar e continuar depois.</p>
+      </div>
+      <div class="row">
+        <button class="btn" id="startAll">${doneCount === 0 ? "Começar a avaliação" : doneCount < SECTIONS.length ? "Continuar de onde parei" : "Refazer tudo"}</button>
+        ${doneCount ? `<button class="btn ghost" id="seeResults">Ver resultado (${doneCount}/${SECTIONS.length} etapas)</button>` : ""}
+      </div>
+      <ol class="steps">
+        ${SECTIONS.map((s, i) => `
+          <li>
+            <span class="n">${String(i + 1).padStart(2, "0")}</span>
+            <div class="body">
+              <strong>${esc(s.name)}</strong>
+              <span class="muted small">${esc(s.about)}</span>
+              <span class="meta">${s.items.length} perguntas · ${done(s.id) ? '<span class="chip ok">Concluída</span>' : Array.isArray(state.answers[s.id]) && state.answers[s.id].some(num) ? '<span class="chip warn">Em andamento</span>' : '<span class="chip none">Não iniciada</span>'}</span>
+            </div>
+            <button class="btn sm ${done(s.id) ? "ghost" : ""}" data-start="${s.id}">${done(s.id) ? "Refazer" : "Fazer"}</button>
+          </li>`).join("")}
+      </ol>
+      ${renderSources()}
+    </div>`;
+  app.querySelector("#startAll").onclick = () => {
+    const pending = SECTIONS.filter(s => !done(s.id)).map(s => s.id);
+    if (!pending.length) SECTIONS.forEach(s => { state.answers[s.id] = []; });
+    startQueue(pending.length ? pending : SECTIONS.map(s => s.id));
+  };
+  const sr = app.querySelector("#seeResults");
+  if (sr) sr.onclick = () => go("results");
+  app.querySelectorAll("[data-start]").forEach(b => b.onclick = () => {
+    if (done(b.dataset.start)) state.answers[b.dataset.start] = [];
+    startQueue([b.dataset.start]);
+  });
+}
+
+function startQueue(ids) { state.queue = ids.slice(); nextSection(); }
+
+// Abre a próxima etapa da fila, retomando na primeira pergunta sem resposta.
+function nextSection() {
+  state.sec = state.queue.shift();
+  const sec = sectionById(state.sec);
+  let a = state.answers[sec.id];
+  if (!Array.isArray(a)) a = state.answers[sec.id] = [];
+  let i = 0;
+  while (i < sec.items.length - 1 && num(a[i])) i++;
+  state.idx = i;
+  go("quiz");
+}
+
+function go(view) { state.view = view; render(); window.scrollTo(0, 0); }
+
+function renderQuiz() {
+  const sec = sectionById(state.sec);
+  const a = state.answers[sec.id];
+  const it = sec.items[state.idx];
+  const opts = it.options || sec.options;
+  const total = sec.items.length;
+  const secNum = SECTIONS.indexOf(sec) + 1;
+  const ctx = contextOf(state.answers.contexto);
+  const forOther = ctx.who === 1 && ["aq50", "raads14", "dsm", "camuf"].includes(sec.id);
+  app.innerHTML = `
+    <div class="quiz">
+      <div class="qnav">
+        <button class="btn ghost sm" id="exit">Salvar e sair</button>
+        <span class="count">Etapa ${secNum} de ${SECTIONS.length} · pergunta ${state.idx + 1} de ${total}</span>
+      </div>
+      <div class="progress" aria-hidden="true"><span style="width:${Math.round((state.idx / total) * 100)}%"></span></div>
+      ${state.idx === 0 ? `<div class="instr"><strong>${esc(sec.name)}</strong><br>${esc(sec.instr)}${forOther ? "<br><em>Você está respondendo por outra pessoa: leia as frases como se fossem sobre ela.</em>" : ""}</div>` : ""}
+      ${it.c && CRITERIA[it.c] ? `<span class="eyebrow">Critério ${it.c} · ${esc(CRITERIA[it.c])}</span>` : ""}
+      <p class="question" id="q">${sec.prefix && !it.noPrefix ? `<span class="prefix">${esc(sec.prefix)}</span>` : ""}${esc(it.t)}</p>
+      <div class="options" role="group" aria-labelledby="q">
+        ${opts.map((o, i) => `<button class="opt" data-v="${i}" aria-pressed="${a[state.idx] === i}"><kbd>${i + 1}</kbd><span>${esc(o)}</span></button>`).join("")}
+      </div>
+      <div class="qnav">
+        <button class="btn ghost sm" id="back" ${state.idx === 0 ? "disabled" : ""}>Voltar</button>
+        <span class="count">Teclas 1–${opts.length}</span>
+      </div>
+    </div>`;
+  app.querySelectorAll(".opt").forEach(b => b.onclick = () => choose(+b.dataset.v));
+  app.querySelector("#back").onclick = () => { if (state.idx > 0) { state.idx--; render(); } };
+  app.querySelector("#exit").onclick = () => { save(); go("home"); };
+}
+
+function choose(v) {
+  const sec = sectionById(state.sec);
+  state.answers[sec.id][state.idx] = v;
+  save();
+  app.querySelectorAll(".opt").forEach(b => b.setAttribute("aria-pressed", +b.dataset.v === v));
+  setTimeout(() => {
+    if (state.idx < sec.items.length - 1) { state.idx++; render(); return; }
+    if (state.queue.length) nextSection();
+    else go("results");
+  }, 160);
+}
+
+document.addEventListener("keydown", e => {
+  if (state.view !== "quiz" || e.altKey || e.ctrlKey || e.metaKey) return;
+  const sec = sectionById(state.sec);
+  const opts = sec.items[state.idx].options || sec.options;
+  const n = parseInt(e.key, 10);
+  if (n >= 1 && n <= opts.length) choose(n - 1);
+  else if (e.key === "Backspace" && state.idx > 0) { state.idx--; render(); }
+});
+
+/* ---------- Resultado ---------- */
+function meter(score, max, cuts, label, thin) {
+  const p = v => (v / max) * 100;
+  return `<div class="meter">
+    <div class="lbl"><span>${label}</span><span>${score} / ${max}</span></div>
+    <div class="track${thin ? " thin" : ""}" role="img" aria-label="${label}: ${score} de ${max}">
+      <div class="fill" style="width:${p(score)}%"></div>
+      ${cuts.map(c => `<div class="cut" style="left:calc(${p(c.v)}% - 1px)"><span>${c.l}</span></div>`).join("")}
+    </div></div>`;
+}
+
+const STATUS = { present: ["Presente", "alert"], partial: ["Parcial", "warn"], absent: ["Pouco ou ausente", "ok"] };
+const LEVEL_NAME = ["Sem necessidade relevante", "Nível 1", "Nível 2", "Nível 3"];
+const LEVEL_DESC = {
+  S: [
+    "As respostas não indicam necessidade de suporte relevante na comunicação social.",
+    "Exige apoio. Sem apoio, as dificuldades de comunicação social causam prejuízo perceptível: dificuldade para iniciar interações, respostas atípicas, pouco interesse aparente ou tentativas de amizade que não dão certo.",
+    "Exige apoio substancial. Dificuldades evidentes mesmo com apoio: interações limitadas, fala em frases simples ou centrada em interesses específicos, comunicação não verbal muito atípica.",
+    "Exige apoio muito substancial. Prejuízo grave na comunicação verbal e não verbal: poucas palavras inteligíveis, raramente inicia interações, responde apenas a abordagens muito diretas."
+  ],
+  R: [
+    "As respostas não indicam necessidade de suporte relevante em rotinas, mudanças e questões sensoriais.",
+    "Exige apoio. A inflexibilidade atrapalha o funcionamento em uma ou mais áreas: dificuldade para trocar de atividade, problemas de organização e planejamento que limitam a independência.",
+    "Exige apoio substancial. Inflexibilidade e dificuldade com mudanças visíveis para quem observa, atrapalhando várias áreas; grande sofrimento ao mudar o foco ou a ação.",
+    "Exige apoio muito substancial. Inflexibilidade extrema e sofrimento intenso com mudanças, interferindo de forma marcante em todas as áreas da vida."
+  ]
+};
+
+function renderResults() {
+  const R = computeAll();
+  const O = overall(R);
+  const ctx = R.ctx;
+  const missing = SECTIONS.filter(s => !done(s.id)).map(s => s.short);
+  const female = ctx.gender === 0;
+  const young = ctx.age === 0;
+
+  const verdict = `
+    <div class="verdict ${O.cat.level}">
+      <span class="eyebrow">Resultado geral · ${O.pts} de 7 pontos de evidência</span>
+      <span class="big">${O.cat.label}</span>
+      <p>${O.cat.text}</p>
+      ${O.reasons.length ? `<p class="small"><strong>Pesou para este resultado:</strong> ${O.reasons.join("; ")}.</p>` : ""}
+      ${missing.length ? `<p class="small muted">Etapas não concluídas: ${missing.join(", ")}. O resultado fica mais preciso com todas as etapas.</p>` : ""}
+    </div>`;
+
+  const warnings = [];
+  if (young) warnings.push("A pessoa avaliada tem menos de 16 anos. AQ-50 e RAADS-14 foram validados em adultos; para crianças e adolescentes existem versões próprias (como o M-CHAT-R/F até 30 meses e o AQ infantil e adolescente). Leve os resultados como orientação geral e procure neuropediatra ou psiquiatra da infância.");
+  if (ctx.who === 1) warnings.push("Você respondeu por outra pessoa. AQ-50 e RAADS-14 são de autorrelato, então os números são aproximados. Para níveis 2 e 3, a avaliação clínica normalmente se baseia justamente no relato da família e na observação direta.");
+  if (female && R.aq50) warnings.push("Mulheres autistas costumam pontuar menos no AQ que homens autistas e são diagnosticadas mais tarde, muitas vezes por causa da camuflagem. Considere os resultados junto com a etapa de camuflagem.");
+
+  const aqBlock = R.aq50 ? `
+    <article class="result">
+      <div class="result-head"><h3>AQ-50: Quociente do Espectro Autista</h3><span class="chip ${R.aq50.level}">${R.aq50.total >= 32 ? "Acima do corte 32" : R.aq50.total >= 26 ? "Acima do corte 26" : "Abaixo dos cortes"}</span></div>
+      ${meter(R.aq50.total, 50, [{ v: 26, l: "26" }, { v: 32, l: "32" }], "Pontuação total")}
+      <p>${R.aq50.total >= 32
+        ? "No estudo original, 80% dos adultos autistas tiveram 32 ou mais, contra 2% da população geral."
+        : R.aq50.total >= 26
+          ? "Acima de 26, o ponto de corte usado em clínicas para indicar avaliação (sensibilidade de 95% em adultos encaminhados), mas abaixo de 32, que tem menos falsos positivos."
+          : "Abaixo do ponto de corte clínico de 26. Na população geral, a média fica em torno de 16 a 17 pontos."}</p>
+      <p class="small muted">Referências: média de adultos autistas no estudo original 35,8; média da população geral 16,4.</p>
+      <div class="stack">
+        <span class="eyebrow">Subescalas (0 a 10 cada)</span>
+        ${Object.entries(R.aq50.subs).map(([k, v]) => meter(v, 10, [], k, true)).join("")}
+        <p class="small muted">Em pessoas autistas, as subescalas mais elevadas costumam ser habilidade social, comunicação e alternância de atenção. Atenção a detalhes alta isoladamente é comum em pessoas não autistas.</p>
+      </div>
+    </article>` : "";
+
+  const raadsBlock = R.raads14 ? `
+    <article class="result">
+      <div class="result-head"><h3>RAADS-14 Screen</h3><span class="chip ${R.raads14.level}">${R.raads14.total >= 14 ? "Acima do corte 14" : "Abaixo do corte"}</span></div>
+      ${meter(R.raads14.total, 42, [{ v: 14, l: "14" }], "Pontuação total")}
+      <p>Medianas no estudo de validação: adultos autistas 32, adultos com TDAH 15, outras condições psiquiátricas 11, pessoas sem condição psiquiátrica 3.</p>
+      <p class="small">Você marcou ${R.raads14.child} de 13 características como presentes na infância. ${R.raads14.child >= 7 ? "Isso reforça um padrão de desenvolvimento, que é exigido para o diagnóstico." : R.raads14.now > R.raads14.child + 4 ? "A maioria aparece só hoje. Características que surgem apenas na vida adulta são menos típicas de autismo e podem ter outras causas (ansiedade, depressão, esgotamento)." : ""}</p>
+    </article>` : "";
+
+  const dsmBlock = R.dsm ? `
+    <article class="result">
+      <div class="result-head"><h3>Critérios do DSM-5-TR</h3><span class="chip ${R.dsm.level}">${R.dsm.full ? "Padrão completo" : R.dsm.near ? "Padrão parcial" : "Padrão incompleto"}</span></div>
+      <p>Para o diagnóstico, o DSM-5-TR exige os <strong>3 critérios A</strong> (comunicação social) e <strong>pelo menos 2 dos 4 critérios B</strong> (comportamentos restritos e repetitivos), presentes desde o início do desenvolvimento e causando prejuízo. Suas respostas: <strong>${R.dsm.aPresent} de 3</strong> critérios A e <strong>${R.dsm.bPresent} de 4</strong> critérios B como presentes.</p>
+      <div class="crit">
+        ${Object.entries(CRITERIA).map(([c, name]) => {
+          const s = STATUS[R.dsm.crit[c].status];
+          return `<div><span class="code">${c}</span><strong>${name}</strong><span class="chip ${s[1]}">${s[0]}</span></div>`;
+        }).join("")}
+        <div><span class="code">C</span><strong>Início na infância</strong><span class="chip ${R.dsm.childhood ? "alert" : R.dsm.onset === 2 ? "warn" : "ok"}">${["Sim, com certeza", "Provavelmente", "Não sabe", "Começou depois"][R.dsm.onset]}</span></div>
+      </div>
+      ${R.dsm.onset === 3 ? `<p class="small">Você indicou que as características começaram na adolescência ou na vida adulta. O autismo é uma condição do neurodesenvolvimento, presente desde a infância, mesmo que só fique visível quando as demandas aumentam. Sinais que surgiram depois merecem investigação de outras causas.</p>` : ""}
+      <p class="small muted">Esta etapa organiza as perguntas pelos critérios oficiais, mas não é um instrumento validado. “Presente” significa que suas respostas ficaram na faixa de “Frequentemente” ou mais.</p>
+    </article>` : "";
+
+  const camufBlock = R.camuf ? `
+    <article class="result">
+      <div class="result-head"><h3>Camuflagem social</h3><span class="chip ${R.camuf.level}">${R.camuf.level === "alert" ? "Alta" : R.camuf.level === "warn" ? "Moderada" : "Baixa"}</span></div>
+      ${meter(R.camuf.total, 32, [{ v: 14, l: "moderada" }, { v: 22, l: "alta" }], "Pontuação")}
+      <p>${R.camuf.level === "alert"
+        ? "Você relata muito esforço para parecer socialmente adequado(a). Em pessoas autistas, isso pode esconder as dificuldades dos outros e até dos questionários, e está ligado a exaustão, ansiedade e esgotamento (burnout autista). Conte isso na avaliação."
+        : R.camuf.level === "warn" ? "Você relata algum esforço para se adaptar socialmente. Isso é comum em pessoas autistas e também em pessoas com ansiedade social."
+        : "Você relata pouco esforço para se adaptar socialmente."}</p>
+      <p class="small muted">Perguntas de apoio baseadas nos três componentes da camuflagem descritos na pesquisa (compensação, mascaramento e assimilação). Não é a escala CAT-Q original e não tem ponto de corte validado.</p>
+    </article>` : "";
+
+  let supportBlock = "";
+  if (R.suporte) {
+    const show = O.pts >= 3;
+    supportBlock = `
+    <section class="stack">
+      <h2>Nível de suporte indicativo</h2>
+      <p>O DSM-5-TR define o nível de suporte <strong>separadamente</strong> para comunicação social e para comportamentos restritos e repetitivos. Abaixo está a estimativa a partir das suas respostas sobre o dia a dia.</p>
+      ${!show ? `<div class="notice"><p>Como o resultado geral não indicou compatibilidade moderada ou alta, os níveis abaixo descrevem apenas a necessidade de apoio no dia a dia, não um nível de autismo.</p></div>` : ""}
+      <div class="levels">
+        ${[["S", "Comunicação social", R.suporte.social, R.suporte.sMean], ["R", "Comportamentos restritos e repetitivos", R.suporte.restricted, R.suporte.rMean]].map(([d, name, lvl, m]) => `
+          <div class="lvl">
+            <span class="eyebrow">${name}</span>
+            <span class="num">${lvl === 0 ? "–" : lvl}</span>
+            <strong>${LEVEL_NAME[lvl]}</strong>
+            <p class="small">${LEVEL_DESC[d][lvl]}</p>
+            <span class="small muted">Média das respostas: ${m.toFixed(1).replace(".", ",")} de 3</span>
+          </div>`).join("")}
+      </div>
+      ${R.suporte.crises >= 2 ? `<p class="small">Você relatou crises de sobrecarga ${R.suporte.crises === 3 ? "toda semana ou mais" : "algumas vezes por mês"}. Isso é importante para o plano de apoio (ajustes no trabalho ou na escola, terapia ocupacional com foco sensorial, estratégias de regulação).</p>` : ""}
+      <p class="small muted"><strong>Atenção:</strong> o nível de suporte só é definido pelo profissional, por observação e entrevista. Ele também pode mudar ao longo da vida e conforme o ambiente. A estimativa usa as descrições oficiais do DSM-5-TR, mas não é um instrumento validado. Em adultos que conseguem responder sozinhos um questionário como este, o nível 1 é o mais comum.</p>
+    </section>`;
+  }
+
+  let difBlock = "";
+  if (R.dif) {
+    const D = R.dif, notes = [];
+    const pos = v => v === 0, part = v => v === 1;
+    if (pos(D.tdah) || part(D.tdah)) notes.push(["TDAH", "TDAH e autismo aparecem juntos em grande parte dos casos (estimativas de 30% a 50% dos autistas têm TDAH). O TDAH também aumenta a pontuação do RAADS-14. Vale investigar os dois na mesma avaliação. Você pode usar o ASRS no rastreio geral."]);
+    if (pos(D.socanx) || part(D.socanx)) notes.push(["Ansiedade social", "Se a dificuldade some com pessoas próximas e você entende os outros intuitivamente, o quadro lembra mais ansiedade social do que autismo. No autismo, a dificuldade de entender as regras sociais costuma aparecer mesmo em ambientes seguros. As duas condições também podem coexistir."]);
+    if (pos(D.trauma) || part(D.trauma)) notes.push(["Trauma", "Trauma complexo pode causar retraimento social, hipervigilância sensorial e dificuldade de confiar, sinais que se parecem com autismo. A diferença principal é o início: no autismo, as características existem desde a primeira infância, antes dos eventos traumáticos. Pessoas autistas também sofrem mais bullying e trauma."]);
+    if (pos(D.toc) || part(D.toc)) notes.push(["TOC", "No TOC, rituais e pensamentos repetitivos causam angústia e servem para aliviar medo. No autismo, rotinas e interesses costumam trazer conforto ou prazer. As duas condições podem coexistir."]);
+    if (pos(D.dep) || part(D.dep)) notes.push(["Depressão", "Isolamento que começou junto com tristeza ou desânimo, depois de uma fase em que você gostava de socializar, sugere depressão. Depressão também é muito comum em autistas adultos, principalmente após anos de camuflagem."]);
+    if (pos(D.intel) || part(D.intel)) notes.push(["Deficiência intelectual ou de aprendizagem", "O DSM-5-TR pede para registrar se o autismo vem com ou sem deficiência intelectual e com ou sem prejuízo de linguagem. Uma avaliação neuropsicológica completa esclarece isso."]);
+    difBlock = `
+    <section class="stack">
+      <h2>Diferenciais e condições associadas</h2>
+      ${notes.length ? notes.map(([t, x]) => `<article class="result"><h3>${t}</h3><p>${x}</p></article>`).join("") : `<p>Você não indicou sinais fortes das principais condições que imitam o autismo. Isso aumenta a especificidade do resultado acima.</p>`}
+    </section>`;
+  }
+
+  app.innerHTML = `
+    <header class="top">
+      <span class="eyebrow">Resultado · ${SECTIONS.length - missing.length} de ${SECTIONS.length} etapas</span>
+      <h1>Seu perfil</h1>
+      <div class="row"><button class="btn ghost sm" id="home">Voltar ao início</button></div>
+    </header>
+    <div class="stack-lg">
+      ${verdict}
+      ${warnings.length ? `<div class="notice">${warnings.map(w => `<p class="small">${w}</p>`).join("")}</div>` : ""}
+      ${(aqBlock || raadsBlock) ? `<section class="stack"><h2>Questionários validados</h2>${aqBlock}${raadsBlock}</section>` : ""}
+      ${dsmBlock ? `<section class="stack"><h2>Critérios oficiais</h2>${dsmBlock}</section>` : ""}
+      ${camufBlock ? `<section class="stack"><h2>Camuflagem</h2>${camufBlock}</section>` : ""}
+      ${supportBlock}
+      ${difBlock}
+      <section class="block">
+        <h2>Próximos passos</h2>
+        <ul>
+          <li><strong>Quem faz o diagnóstico:</strong> psiquiatra ou neurologista, idealmente com avaliação neuropsicológica. Procure profissionais com experiência em autismo em adultos, e em mulheres, se for o caso.</li>
+          <li><strong>Pelo SUS:</strong> comece pela Unidade Básica de Saúde (UBS). O encaminhamento pode ser para CAPS, ambulatório de psiquiatria ou CER (Centro Especializado em Reabilitação).</li>
+          <li><strong>O que levar:</strong> este resumo, lembranças da infância, boletins ou relatórios escolares antigos, e se possível um familiar que conviveu com você quando criança.</li>
+          <li><strong>O que a avaliação costuma incluir:</strong> entrevista do desenvolvimento (como a ADI-R), observação estruturada (como o ADOS-2), escalas de funcionamento e investigação de TDAH, ansiedade, depressão e deficiência intelectual.</li>
+          <li><strong>Direitos no Brasil:</strong> a Lei 12.764/2012 (Lei Berenice Piana) reconhece a pessoa autista como pessoa com deficiência para todos os efeitos legais. A Carteira de Identificação da Pessoa com TEA (CIPTEA, Lei 13.977/2020) é emitida pelos estados e municípios. O laudo usa o código 6A02 da CID-11 (ou F84.0 da CID-10).</li>
+        </ul>
+        <label for="summaryText" class="eyebrow">Resumo para levar à consulta</label>
+        <textarea id="summaryText" readonly>${esc(buildSummary(R, O))}</textarea>
+        <div class="row">
+          <button class="btn sm" id="copy">Copiar resumo</button>
+          <span class="muted small" id="copyMsg" aria-live="polite"></span>
+        </div>
+        <div class="row">
+          <button class="btn ghost sm" id="reset">Apagar todas as respostas</button>
+          <span id="resetConfirm" hidden><button class="btn sm" id="resetYes">Confirmar: apagar</button></span>
+        </div>
+      </section>
+      ${renderSources()}
+    </div>`;
+  app.querySelector("#home").onclick = () => go("home");
+  app.querySelector("#copy").onclick = () => {
+    const ta = app.querySelector("#summaryText"), msg = app.querySelector("#copyMsg");
+    const fallback = () => { ta.focus(); ta.select(); msg.textContent = "Texto selecionado. Use Ctrl+C (ou Copiar) para copiar."; };
+    try { navigator.clipboard.writeText(ta.value).then(() => msg.textContent = "Resumo copiado.", fallback); } catch (e) { fallback(); }
+  };
+  app.querySelector("#reset").onclick = () => { app.querySelector("#resetConfirm").hidden = false; };
+  app.querySelector("#resetYes").onclick = () => { state.answers = {}; save(); go("home"); };
+}
+
+function buildSummary(R, O) {
+  const L = ["Avaliação de Traços Autistas: resumo (não é diagnóstico)", "", `Resultado geral: ${O.cat.label} (${O.pts}/7 pontos de evidência)`];
+  if (R.aq50) L.push(`AQ-50: ${R.aq50.total}/50 (cortes 26 e 32). Subescalas: ${Object.entries(R.aq50.subs).map(([k, v]) => `${k} ${v}`).join(", ")}`);
+  if (R.raads14) L.push(`RAADS-14: ${R.raads14.total}/42 (corte 14); ${R.raads14.child}/13 itens presentes na infância`);
+  if (R.dsm) {
+    L.push(`DSM-5-TR (checklist): A ${R.dsm.aPresent}/3, B ${R.dsm.bPresent}/4 presentes; início na infância: ${["sim", "provável", "não sabe", "não"][R.dsm.onset]}`);
+    L.push("  " + Object.keys(CRITERIA).map(c => `${c} ${STATUS[R.dsm.crit[c].status][0].toLowerCase()}`).join("; "));
+  }
+  if (R.camuf) L.push(`Camuflagem: ${R.camuf.total}/32 (${R.camuf.level === "alert" ? "alta" : R.camuf.level === "warn" ? "moderada" : "baixa"})`);
+  if (R.suporte) L.push(`Suporte indicativo: comunicação social ${LEVEL_NAME[R.suporte.social].toLowerCase()}; comportamentos restritos ${LEVEL_NAME[R.suporte.restricted].toLowerCase()}; crises: ${["nunca/quase nunca", "algumas vezes por ano", "algumas vezes por mês", "semanais ou mais"][R.suporte.crises]}`);
+  if (R.dif) {
+    const names = { tdah: "TDAH", socanx: "ansiedade social", trauma: "trauma", toc: "TOC", dep: "depressão", intel: "deficiência intelectual/aprendizagem" };
+    const flagged = Object.entries(R.dif).filter(([, v]) => v <= 1).map(([k, v]) => `${names[k]}${v === 1 ? " (em parte)" : ""}`);
+    L.push(`Diferenciais a investigar: ${flagged.length ? flagged.join(", ") : "nenhum indicado"}`);
+  }
+  return L.join("\n");
+}
+
+function renderSources() {
+  return `<section class="block sources">
+    <h2>Fontes científicas</h2>
+    <p class="muted small">Traduções adaptadas para o português do Brasil a partir das versões originais. As etapas de critérios do DSM-5-TR, camuflagem, suporte e diferenciais foram construídas a partir das definições oficiais e da literatura, mas não são instrumentos validados.</p>
+    <ol>
+      <li>Baron-Cohen S, Wheelwright S, Skinner R, Martin J, Clubley E. The Autism-Spectrum Quotient (AQ): evidence from Asperger syndrome/high-functioning autism, males and females, scientists and mathematicians. <em>J Autism Dev Disord</em>. 2001;31(1):5–17. (AQ-50, cortes e médias)</li>
+      <li>Woodbury-Smith MR, Robinson J, Wheelwright S, Baron-Cohen S. Screening adults for Asperger syndrome using the AQ: a preliminary study of its diagnostic validity in clinical practice. <em>J Autism Dev Disord</em>. 2005;35(3):331–335. (corte clínico 26)</li>
+      <li>Ruzich E, Allison C, Smith P et al. <a href="https://link.springer.com/article/10.1186/2040-2392-6-2" target="_blank" rel="noopener">Measuring autistic traits in the general population: a systematic review of the AQ</a>. <em>Molecular Autism</em>. 2015;6:2.</li>
+      <li><a href="https://repositorio.ufmg.br/bitstream/1843/60582/2/The%20Autism%20Spectrum%20Quotient%20in%20a%20sample%20of%20Brazilian%20adults%20analyses%20of%20normative%20data%20and%20performance%20pdfa.pdf" target="_blank" rel="noopener">The Autism Spectrum Quotient in a sample of Brazilian adults: analyses of normative data and performance</a>. UFMG. (AQ em adultos brasileiros)</li>
+      <li>Eriksson JM, Andersen LMJ, Bejerot S. RAADS-14 Screen: validity of a screening tool for autism spectrum disorder in an adult psychiatric population. <em>Molecular Autism</em>. 2013;4:49. <a href="https://doi.org/10.1186/2040-2392-4-49" target="_blank" rel="noopener">doi:10.1186/2040-2392-4-49</a></li>
+      <li>Hull L, Mandy W, Lai MC et al. Development and validation of the Camouflaging Autistic Traits Questionnaire (CAT-Q). <em>J Autism Dev Disord</em>. 2019;49:819–833. (base conceitual da etapa de camuflagem)</li>
+      <li>American Psychiatric Association. <em>DSM-5-TR: Manual Diagnóstico e Estatístico de Transtornos Mentais</em>, 5ª ed., texto revisado. 2022/2023. (critérios A–E e níveis de suporte)</li>
+      <li>Organização Mundial da Saúde. CID-11, código 6A02: Transtorno do espectro do autismo.</li>
+      <li>NICE. <a href="https://www.nice.org.uk/guidance/cg142" target="_blank" rel="noopener">Autism spectrum disorder in adults: diagnosis and management (CG142)</a>.</li>
+      <li>Brasil. Lei nº 12.764/2012 (Política Nacional de Proteção dos Direitos da Pessoa com TEA) e Lei nº 13.977/2020 (CIPTEA).</li>
+    </ol>
+  </section>`;
+}
+
+function render() {
+  if (state.view === "quiz") renderQuiz();
+  else if (state.view === "results") renderResults();
+  else renderHome();
+}
+
+window.__autismo = { SECTIONS, scoreAQ, scoreRAADS, scoreDSM, scoreSupport, overall };
+render();
+</script>
